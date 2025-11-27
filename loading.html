@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generating Specifications - Pangea</title>
+  <link rel="stylesheet" href="styles/pangea-mockup.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f7fafc;
+      min-height: 100vh;
+    }
+
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .loading-card {
+      background: white;
+      border-radius: 16px;
+      padding: 48px 64px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+    }
+
+    .loading-icon {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 24px;
+    }
+
+    .loading-spinner {
+      width: 60px;
+      height: 60px;
+      border: 4px solid #e2e8f0;
+      border-top-color: #22896a;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 24px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: #1a202c;
+      margin-bottom: 12px;
+    }
+
+    .loading-subtitle {
+      font-size: 16px;
+      color: #718096;
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+
+    .progress-container {
+      width: 100%;
+      margin-bottom: 24px;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #22896a, #176448);
+      border-radius: 4px;
+      transition: width 0.5s ease;
+      width: 0%;
+    }
+
+    .progress-text {
+      font-size: 14px;
+      color: #718096;
+      margin-top: 12px;
+    }
+
+    .steps-list {
+      text-align: left;
+      margin-top: 32px;
+      padding-top: 32px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      font-size: 14px;
+      color: #4a5568;
+    }
+
+    .step-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-icon.completed {
+      background: #22896a;
+      color: white;
+    }
+
+    .step-icon.active {
+      background: #e2e8f0;
+      color: #718096;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .step-icon.pending {
+      background: #e2e8f0;
+      color: #a0aec0;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .step-text.completed {
+      color: #22896a;
+    }
+
+    .step-text.active {
+      color: #1a202c;
+      font-weight: 500;
+    }
+
+    .estimated-time {
+      font-size: 13px;
+      color: #a0aec0;
+      margin-top: 24px;
+    }
+
+    .pangea-logo {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      font-size: 20px;
+      font-weight: 700;
+      color: #176448;
+    }
+  </style>
+</head>
+<body>
+  <div class="pangea-logo">pangea.ai</div>
+
+  <div class="loading-container">
+    <div class="loading-card">
+      <div class="loading-spinner"></div>
+
+      <h1 class="loading-title">Generating Your Specifications</h1>
+      <p class="loading-subtitle">
+        Our AI is analyzing your project requirements and creating detailed technical specifications.
+      </p>
+
+      <div class="progress-container">
+        <div class="progress-bar-bg">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="progress-text" id="progressText">Initializing...</div>
+      </div>
+
+      <div class="steps-list">
+        <div class="step-item" id="step1">
+          <div class="step-icon active" id="step1Icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="step-text active" id="step1Text">Analyzing project requirements</span>
+        </div>
+        <div class="step-item" id="step2">
+          <div class="step-icon pending" id="step2Icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="step-text" id="step2Text">Identifying tech stack & architecture</span>
+        </div>
+        <div class="step-item" id="step3">
+          <div class="step-icon pending" id="step3Icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="step-text" id="step3Text">Creating implementation milestones</span>
+        </div>
+        <div class="step-item" id="step4">
+          <div class="step-icon pending" id="step4Icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="step-text" id="step4Text">Estimating timeline & resources</span>
+        </div>
+        <div class="step-item" id="step5">
+          <div class="step-icon pending" id="step5Icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="step-text" id="step5Text">Finalizing specifications document</span>
+        </div>
+      </div>
+
+      <p class="estimated-time">Estimated time remaining: <span id="timeRemaining">~30 seconds</span></p>
+    </div>
+  </div>
+
+  <script>
+    // Get project description from URL params (passed from homepage)
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectPrompt = urlParams.get('prompt') || 'Your project';
+
+    // Simulated loading progress
+    const steps = [
+      { progress: 20, text: 'Analyzing project requirements...', time: '~25 seconds' },
+      { progress: 40, text: 'Identifying tech stack & architecture...', time: '~20 seconds' },
+      { progress: 60, text: 'Creating implementation milestones...', time: '~15 seconds' },
+      { progress: 80, text: 'Estimating timeline & resources...', time: '~10 seconds' },
+      { progress: 95, text: 'Finalizing specifications document...', time: '~5 seconds' },
+      { progress: 100, text: 'Complete! Redirecting...', time: 'Done!' },
+    ];
+
+    let currentStep = 0;
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    const timeRemaining = document.getElementById('timeRemaining');
+
+    function updateStep(stepNum) {
+      // Update icons and text
+      for (let i = 1; i <= 5; i++) {
+        const icon = document.getElementById(`step${i}Icon`);
+        const text = document.getElementById(`step${i}Text`);
+
+        if (i < stepNum) {
+          icon.className = 'step-icon completed';
+          text.className = 'step-text completed';
+        } else if (i === stepNum) {
+          icon.className = 'step-icon active';
+          text.className = 'step-text active';
+        } else {
+          icon.className = 'step-icon pending';
+          text.className = 'step-text';
+        }
+      }
+    }
+
+    function advanceProgress() {
+      if (currentStep >= steps.length) {
+        // Redirect to client homepage (where user can see progress and eventually view project)
+        window.location.href = 'client-homepage.html?prompt=' + encodeURIComponent(projectPrompt);
+        return;
+      }
+
+      const step = steps[currentStep];
+      progressBar.style.width = step.progress + '%';
+      progressText.textContent = step.text;
+      timeRemaining.textContent = step.time;
+
+      // Update step indicators (steps 0-4 map to steps 1-5)
+      updateStep(currentStep + 1);
+
+      currentStep++;
+
+      // Schedule next step (faster for demo - in production this would be 60-90 seconds per step)
+      if (currentStep < steps.length) {
+        setTimeout(advanceProgress, 2000); // 2 seconds per step for demo
+      } else {
+        setTimeout(advanceProgress, 1000); // Brief pause before redirect
+      }
+    }
+
+    // Start the progress simulation
+    setTimeout(advanceProgress, 500);
+  </script>
+</body>
+</html>

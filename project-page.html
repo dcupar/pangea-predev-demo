@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project - Pangea Client App</title>
+  <link rel="stylesheet" href="styles/pangea-mockup.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f7fafc;
+      min-height: 100vh;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: white;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar-left {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .navbar-logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: #176448;
+    }
+
+    .navbar-nav {
+      display: flex;
+      gap: 24px;
+    }
+
+    .navbar-link {
+      font-size: 14px;
+      color: #4a5568;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .navbar-link:hover {
+      background: #f7fafc;
+      color: #1a202c;
+    }
+
+    .navbar-link.active {
+      background: #d1fae5;
+      color: #22896a;
+      font-weight: 500;
+    }
+
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #22896a;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    /* Main Content */
+    .main-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px;
+    }
+
+    /* Project Header */
+    .project-header {
+      background: white;
+      border-radius: 12px;
+      padding: 24px 32px;
+      margin-bottom: 24px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .project-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .engagement-badge {
+      background: #dbeafe;
+      color: #1d4ed8;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .status-badge {
+      background: #d1fae5;
+      color: #176448;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .project-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1a202c;
+      margin-bottom: 8px;
+    }
+
+    .project-company {
+      font-size: 16px;
+      color: #718096;
+    }
+
+    /* Tabs */
+    .tabs-container {
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      overflow: hidden;
+    }
+
+    .tabs-header {
+      display: flex;
+      border-bottom: 1px solid #e2e8f0;
+      background: #fafafa;
+    }
+
+    .tab-button {
+      padding: 16px 24px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #718096;
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s;
+    }
+
+    .tab-button:hover {
+      color: #1a202c;
+      background: white;
+    }
+
+    .tab-button.active {
+      color: #22896a;
+      background: white;
+    }
+
+    .tab-button.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #22896a;
+    }
+
+    .tab-badge {
+      background: #e2e8f0;
+      color: #4a5568;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      margin-left: 8px;
+    }
+
+    .tab-content {
+      display: none;
+      padding: 32px;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Requirements Tab Content */
+    .spec-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 32px;
+    }
+
+    .spec-header-content h2 {
+      font-size: 22px;
+      font-weight: 600;
+      color: #1a202c;
+      margin-bottom: 8px;
+    }
+
+    .spec-header-content p {
+      font-size: 14px;
+      color: #718096;
+      max-width: 500px;
+    }
+
+    .download-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .download-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+
+    .download-btn.primary {
+      background: #22896a;
+      color: white;
+    }
+
+    .download-btn.primary:hover {
+      background: #1d7a5e;
+    }
+
+    .download-btn.secondary {
+      background: white;
+      color: #1a202c;
+      border: 1px solid #e2e8f0;
+    }
+
+    .download-btn.secondary:hover {
+      background: #f7fafc;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: #f7fafc;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: #2574ff;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: #718096;
+    }
+
+    /* Sections */
+    .spec-section {
+      background: #fafafa;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a202c;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Tech Stack */
+    .tech-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tech-badge {
+      background: #dbeafe;
+      color: #1d4ed8;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* Categories Grid */
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .category-item h4 {
+      font-size: 12px;
+      font-weight: 600;
+      color: #718096;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .category-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .category-tag {
+      background: white;
+      color: #1a202c;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      border: 1px solid #e2e8f0;
+    }
+
+    /* Milestones */
+    .milestones-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .milestone-card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .milestone-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .milestone-header:hover {
+      background: #fafafa;
+    }
+
+    .milestone-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .milestone-number {
+      width: 28px;
+      height: 28px;
+      background: #2574ff;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .milestone-name {
+      font-size: 15px;
+      font-weight: 500;
+      color: #1a202c;
+    }
+
+    .milestone-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .milestone-hours {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      color: #718096;
+    }
+
+    .complexity-badge {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .complexity-badge.m {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .complexity-badge.l {
+      background: #fed7aa;
+      color: #c2410c;
+    }
+
+    .complexity-badge.xl {
+      background: #fecaca;
+      color: #991b1b;
+    }
+
+    .expand-icon {
+      color: #718096;
+      transition: transform 0.2s;
+    }
+
+    .milestone-card.expanded .expand-icon {
+      transform: rotate(180deg);
+    }
+
+    .milestone-content {
+      display: none;
+      padding: 0 20px 20px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .milestone-card.expanded .milestone-content {
+      display: block;
+    }
+
+    .milestone-description {
+      font-size: 14px;
+      color: #4a5568;
+      line-height: 1.6;
+      padding-top: 16px;
+      margin-bottom: 16px;
+    }
+
+    .deliverables-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #1a202c;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .deliverables-list {
+      list-style: none;
+    }
+
+    .deliverables-list li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #4a5568;
+      padding: 6px 0;
+    }
+
+    .deliverables-list li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: #22896a;
+      border-radius: 50%;
+    }
+
+    /* Applications Tab Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .empty-icon {
+      width: 80px;
+      height: 80px;
+      background: #f7fafc;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+
+    .empty-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a202c;
+      margin-bottom: 8px;
+    }
+
+    .empty-text {
+      font-size: 14px;
+      color: #718096;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    /* Success Toast */
+    .success-toast {
+      position: fixed;
+      top: 80px;
+      right: 32px;
+      background: #22896a;
+      color: white;
+      padding: 16px 24px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      animation: slideIn 0.3s ease, slideOut 0.3s ease 4s forwards;
+      z-index: 1000;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes slideOut {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(100%); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Success Toast -->
+  <div class="success-toast" id="successToast">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+      <polyline points="22 4 12 14.01 9 11.01"/>
+    </svg>
+    <span>Specifications generated successfully!</span>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-left">
+      <div class="navbar-logo">pangea.ai</div>
+      <div class="navbar-nav">
+        <a href="#" class="navbar-link active">My Projects</a>
+        <a href="#" class="navbar-link">Agencies</a>
+        <a href="#" class="navbar-link">Talent</a>
+        <a href="#" class="navbar-link">Case Studies</a>
+      </div>
+    </div>
+    <div class="navbar-right">
+      <div class="user-avatar">JD</div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Project Header -->
+    <div class="project-header">
+      <div class="project-meta">
+        <span class="engagement-badge">Project Work</span>
+        <span class="status-badge">Specifications Ready</span>
+      </div>
+      <h1 class="project-title" id="projectTitle">SaaS Project Management Platform</h1>
+      <p class="project-company">Test Company • Created just now</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs-container">
+      <div class="tabs-header">
+        <button class="tab-button active" data-tab="requirements">Requirements</button>
+        <button class="tab-button" data-tab="applications">Applications <span class="tab-badge">0</span></button>
+        <button class="tab-button" data-tab="shortlist">Your Shortlist <span class="tab-badge">0</span></button>
+        <button class="tab-button" data-tab="recommendations">Recommendations <span class="tab-badge">0</span></button>
+      </div>
+
+      <!-- Requirements Tab -->
+      <div class="tab-content active" id="requirements">
+        <div class="spec-header">
+          <div class="spec-header-content">
+            <h2>Project Specifications</h2>
+            <p>AI-generated technical specifications based on your project requirements. Use these specs to guide development or share with agencies for accurate proposals.</p>
+          </div>
+          <div class="download-buttons">
+            <button class="download-btn primary" onclick="window.open('spec-viewer.html', '_blank')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15 3 21 3 21 9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+              View Full Specs
+            </button>
+            <button class="download-btn secondary" onclick="window.open('spec-viewer.html', '_blank')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Download PDF
+            </button>
+          </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value">520</div>
+            <div class="stat-label">Estimated Hours</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">6</div>
+            <div class="stat-label">Milestones</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">6</div>
+            <div class="stat-label">Technologies</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">3</div>
+            <div class="stat-label">Team Roles</div>
+          </div>
+        </div>
+
+        <!-- Tech Stack Section -->
+        <div class="spec-section">
+          <h3 class="section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
+            </svg>
+            Tech Stack
+          </h3>
+          <div class="tech-grid">
+            <span class="tech-badge">React</span>
+            <span class="tech-badge">Node.js</span>
+            <span class="tech-badge">PostgreSQL</span>
+            <span class="tech-badge">AWS</span>
+            <span class="tech-badge">Docker</span>
+            <span class="tech-badge">TypeScript</span>
+          </div>
+        </div>
+
+        <!-- Project Categories Section -->
+        <div class="spec-section">
+          <h3 class="section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+              <polyline points="2 17 12 22 22 17"/>
+              <polyline points="2 12 12 17 22 12"/>
+            </svg>
+            Project Categories
+          </h3>
+          <div class="categories-grid">
+            <div class="category-item">
+              <h4>Domains</h4>
+              <div class="category-tags">
+                <span class="category-tag">AI & ML Solutions</span>
+                <span class="category-tag">Web Development</span>
+              </div>
+            </div>
+            <div class="category-item">
+              <h4>Industries</h4>
+              <div class="category-tags">
+                <span class="category-tag">Technology</span>
+                <span class="category-tag">SaaS</span>
+              </div>
+            </div>
+            <div class="category-item">
+              <h4>Services</h4>
+              <div class="category-tags">
+                <span class="category-tag">Full-stack Development</span>
+                <span class="category-tag">DevOps</span>
+                <span class="category-tag">UI/UX Design</span>
+              </div>
+            </div>
+            <div class="category-item">
+              <h4>Roles Needed</h4>
+              <div class="category-tags">
+                <span class="category-tag">Backend Developer</span>
+                <span class="category-tag">Frontend Developer</span>
+                <span class="category-tag">DevOps Engineer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Milestones Section -->
+        <div class="spec-section">
+          <h3 class="section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="8" y1="6" x2="21" y2="6"/>
+              <line x1="8" y1="12" x2="21" y2="12"/>
+              <line x1="8" y1="18" x2="21" y2="18"/>
+              <line x1="3" y1="6" x2="3.01" y2="6"/>
+              <line x1="3" y1="12" x2="3.01" y2="12"/>
+              <line x1="3" y1="18" x2="3.01" y2="18"/>
+            </svg>
+            Implementation Milestones
+          </h3>
+          <div class="milestones-list">
+            <!-- Milestone 1 -->
+            <div class="milestone-card expanded">
+              <div class="milestone-header" onclick="toggleMilestone(this)">
+                <div class="milestone-title">
+                  <span class="milestone-number">1</span>
+                  <span class="milestone-name">Project Setup & Infrastructure</span>
+                </div>
+                <div class="milestone-meta">
+                  <span class="milestone-hours">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    40h
+                  </span>
+                  <span class="complexity-badge m">M</span>
+                  <svg class="expand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="milestone-content">
+                <p class="milestone-description">Initialize project structure, set up CI/CD pipelines, configure development environment with Docker containers and AWS infrastructure.</p>
+                <h4 class="deliverables-title">Deliverables</h4>
+                <ul class="deliverables-list">
+                  <li>Repository setup with branching strategy</li>
+                  <li>CI/CD pipeline configuration</li>
+                  <li>Development environment documentation</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Milestone 2 -->
+            <div class="milestone-card">
+              <div class="milestone-header" onclick="toggleMilestone(this)">
+                <div class="milestone-title">
+                  <span class="milestone-number">2</span>
+                  <span class="milestone-name">Authentication & User Management</span>
+                </div>
+                <div class="milestone-meta">
+                  <span class="milestone-hours">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    80h
+                  </span>
+                  <span class="complexity-badge l">L</span>
+                  <svg class="expand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="milestone-content">
+                <p class="milestone-description">Implement user authentication with Auth0, authorization rules, and comprehensive profile management system.</p>
+                <h4 class="deliverables-title">Deliverables</h4>
+                <ul class="deliverables-list">
+                  <li>Auth0 integration with SSO support</li>
+                  <li>User profile management</li>
+                  <li>Role-based access control system</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Milestone 3 -->
+            <div class="milestone-card">
+              <div class="milestone-header" onclick="toggleMilestone(this)">
+                <div class="milestone-title">
+                  <span class="milestone-number">3</span>
+                  <span class="milestone-name">Core API Development</span>
+                </div>
+                <div class="milestone-meta">
+                  <span class="milestone-hours">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    120h
+                  </span>
+                  <span class="complexity-badge xl">XL</span>
+                  <svg class="expand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="milestone-content">
+                <p class="milestone-description">Build RESTful API endpoints for main application features including project management, task tracking, and AI-powered prioritization.</p>
+                <h4 class="deliverables-title">Deliverables</h4>
+                <ul class="deliverables-list">
+                  <li>RESTful API endpoints</li>
+                  <li>Database schema and migrations</li>
+                  <li>OpenAPI documentation</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Milestone 4 -->
+            <div class="milestone-card">
+              <div class="milestone-header" onclick="toggleMilestone(this)">
+                <div class="milestone-title">
+                  <span class="milestone-number">4</span>
+                  <span class="milestone-name">Frontend Application</span>
+                </div>
+                <div class="milestone-meta">
+                  <span class="milestone-hours">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    160h
+                  </span>
+                  <span class="complexity-badge xl">XL</span>
+                  <svg class="expand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="milestone-content">
+                <p class="milestone-description">Develop responsive React frontend with component library, state management, and real-time collaboration features.</p>
+                <h4 class="deliverables-title">Deliverables</h4>
+                <ul class="deliverables-list">
+                  <li>React component library</li>
+                  <li>Redux state management</li>
+                  <li>Responsive design implementation</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Milestone 5 -->
+            <div class="milestone-card">
+              <div class="milestone-header" onclick="toggleMilestone(this)">
+                <div class="milestone-title">
+                  <span class="milestone-number">5</span>
+                  <span class="milestone-name">Testing & QA</span>
+                </div>
+                <div class="milestone-meta">
+                  <span class="milestone-hours">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    60h
+                  </span>
+                  <span class="complexity-badge m">M</span>
+                  <svg class="expand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="milestone-content">
+                <p class="milestone-description">Comprehensive testing including unit, integration, and E2E tests with automated test coverage reporting.</p>
+                <h4 class="deliverables-title">Deliverables</h4>
+                <ul class="deliverables-list">
+                  <li>Unit test suite (80% coverage)</li>
+                  <li>E2E test scenarios</li>
+                  <li>Test coverage report</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Milestone 6 -->
+            <div class="milestone-card">
+              <div class="milestone-header" onclick="toggleMilestone(this)">
+                <div class="milestone-title">
+                  <span class="milestone-number">6</span>
+                  <span class="milestone-name">Deployment & Launch</span>
+                </div>
+                <div class="milestone-meta">
+                  <span class="milestone-hours">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    60h
+                  </span>
+                  <span class="complexity-badge m">M</span>
+                  <svg class="expand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="milestone-content">
+                <p class="milestone-description">Production deployment, monitoring setup, and launch preparation with rollback procedures.</p>
+                <h4 class="deliverables-title">Deliverables</h4>
+                <ul class="deliverables-list">
+                  <li>Production deployment</li>
+                  <li>Monitoring dashboards</li>
+                  <li>Launch checklist documentation</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Applications Tab -->
+      <div class="tab-content" id="applications">
+        <div class="empty-state">
+          <div class="empty-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#a0aec0" stroke-width="1.5">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+          </div>
+          <h3 class="empty-title">No Applications Yet</h3>
+          <p class="empty-text">Agencies will start applying to your project once your specifications are shared. We'll notify you when you receive applications.</p>
+        </div>
+      </div>
+
+      <!-- Shortlist Tab -->
+      <div class="tab-content" id="shortlist">
+        <div class="empty-state">
+          <div class="empty-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#a0aec0" stroke-width="1.5">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <h3 class="empty-title">Your Shortlist is Empty</h3>
+          <p class="empty-text">When you receive applications, you can shortlist your favorite agencies here for easy comparison.</p>
+        </div>
+      </div>
+
+      <!-- Recommendations Tab -->
+      <div class="tab-content" id="recommendations">
+        <div class="empty-state">
+          <div class="empty-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#a0aec0" stroke-width="1.5">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
+          <h3 class="empty-title">Recommendations Coming Soon</h3>
+          <p class="empty-text">Based on your project specifications, we'll recommend agencies that best match your tech stack and requirements.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Get project prompt from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const prompt = urlParams.get('prompt');
+    if (prompt) {
+      // Create a short title from the prompt
+      const title = prompt.length > 50 ? prompt.substring(0, 50) + '...' : prompt;
+      document.getElementById('projectTitle').textContent = title;
+    }
+
+    // Tab switching
+    document.querySelectorAll('.tab-button').forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove active from all buttons and contents
+        document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+        // Add active to clicked button and corresponding content
+        button.classList.add('active');
+        document.getElementById(button.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Milestone accordion toggle
+    function toggleMilestone(header) {
+      const card = header.closest('.milestone-card');
+      card.classList.toggle('expanded');
+    }
+
+    // Hide success toast after animation
+    setTimeout(() => {
+      document.getElementById('successToast').style.display = 'none';
+    }, 5000);
+  </script>
+</body>
+</html>

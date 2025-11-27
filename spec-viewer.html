@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CrossCast Specifications - Pangea</title>
+  <link rel="stylesheet" href="styles/pangea-mockup.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f7fafc;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* Header */
+    .spec-header {
+      background: white;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: none;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      color: #4a5568;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .back-btn:hover {
+      background: #f7fafc;
+      border-color: #cbd5e0;
+    }
+
+    .header-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a202c;
+    }
+
+    .header-badge {
+      background: #d1fae5;
+      color: #176448;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .download-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      text-decoration: none;
+    }
+
+    .download-btn.primary {
+      background: #22896a;
+      color: white;
+    }
+
+    .download-btn.primary:hover {
+      background: #1d7a5e;
+    }
+
+    .download-btn.secondary {
+      background: white;
+      color: #1a202c;
+      border: 1px solid #e2e8f0;
+    }
+
+    .download-btn.secondary:hover {
+      background: #f7fafc;
+    }
+
+    /* Main Content */
+    .spec-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 32px;
+    }
+
+    /* Spec Document */
+    .spec-document {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .doc-header {
+      background: linear-gradient(135deg, #176448, #22896a);
+      color: white;
+      padding: 40px;
+    }
+
+    .doc-logo {
+      font-size: 14px;
+      font-weight: 600;
+      opacity: 0.8;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .doc-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .doc-subtitle {
+      font-size: 16px;
+      opacity: 0.9;
+      max-width: 700px;
+    }
+
+    .doc-meta {
+      display: flex;
+      gap: 24px;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .meta-label {
+      font-size: 12px;
+      opacity: 0.7;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .meta-value {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    /* Document Body */
+    .doc-body {
+      padding: 40px;
+    }
+
+    /* Section styling */
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a202c;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #22896a;
+    }
+
+    .section-content {
+      color: #4a5568;
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    /* Feature cards */
+    .feature-card {
+      background: #f7fafc;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      border-left: 4px solid #22896a;
+    }
+
+    .feature-card strong {
+      color: #1a202c;
+    }
+
+    /* Tech stack grid */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .tech-item {
+      background: #f7fafc;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .tech-item strong {
+      color: #176448;
+    }
+
+    /* Milestone styling */
+    .milestone {
+      background: linear-gradient(135deg, #176448, #22896a);
+      color: white;
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin: 32px 0 20px 0;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    /* Story cards */
+    .story {
+      background: #f7fafc;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 16px;
+      border-left: 4px solid #22896a;
+    }
+
+    .story-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .story-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a202c;
+    }
+
+    .story-size {
+      background: #e2e8f0;
+      color: #4a5568;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .story-description {
+      font-size: 14px;
+      color: #718096;
+      margin-bottom: 12px;
+    }
+
+    .acceptance-criteria {
+      font-size: 13px;
+      color: #4a5568;
+      background: white;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+
+    .acceptance-criteria strong {
+      color: #1a202c;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .criteria-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .criteria-item input {
+      margin-top: 3px;
+      accent-color: #22896a;
+    }
+
+    /* Subtasks */
+    .subtasks {
+      margin-top: 12px;
+    }
+
+    .subtask {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 14px;
+      background: white;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: #4a5568;
+      border-left: 3px solid #cbd5e0;
+    }
+
+    .subtask input {
+      margin-top: 2px;
+      accent-color: #22896a;
+    }
+
+    .subtask-size {
+      background: #e2e8f0;
+      color: #718096;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    /* Guidelines */
+    .guideline {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .guideline:last-child {
+      border-bottom: none;
+    }
+
+    .guideline-icon {
+      width: 24px;
+      height: 24px;
+      background: #d1fae5;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #22896a;
+      flex-shrink: 0;
+    }
+
+    /* Footer */
+    .doc-footer {
+      background: #f7fafc;
+      padding: 24px 40px;
+      border-top: 1px solid #e2e8f0;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-size: 16px;
+      font-weight: 700;
+      color: #176448;
+      margin-bottom: 8px;
+    }
+
+    .footer-text {
+      font-size: 13px;
+      color: #718096;
+    }
+
+    .footer-text a {
+      color: #22896a;
+      text-decoration: none;
+    }
+
+    /* Scroll to top */
+    .scroll-top {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 48px;
+      height: 48px;
+      background: #22896a;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .scroll-top:hover {
+      background: #176448;
+    }
+
+    /* Print styles */
+    @media print {
+      .spec-header, .scroll-top {
+        display: none;
+      }
+
+      .spec-container {
+        padding: 0;
+        max-width: none;
+      }
+
+      .spec-document {
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="spec-header">
+    <div class="header-left">
+      <a href="project-page.html" class="back-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back to Project
+      </a>
+      <h1 class="header-title">Project Specifications</h1>
+      <span class="header-badge">Generated by pre.dev AI</span>
+    </div>
+    <div class="header-actions">
+      <button class="download-btn secondary" onclick="window.print()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 6 2 18 2 18 9"/>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+          <rect x="6" y="14" width="12" height="8"/>
+        </svg>
+        Print
+      </button>
+      <button class="download-btn primary" onclick="downloadSpec()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Download
+      </button>
+    </div>
+  </header>
+
+  <!-- Spec Document -->
+  <div class="spec-container">
+    <div class="spec-document">
+      <!-- Document Header -->
+      <div class="doc-header">
+        <div class="doc-logo">pangea.ai x pre.dev</div>
+        <h1 class="doc-title">CrossCast - Social Audio/Video Chat Platform</h1>
+        <p class="doc-subtitle">Cross-platform social audio and video chat application MVP with real-time voice/video rooms, discovery features, moderation tools, and seamless cross-platform experience.</p>
+
+        <div class="doc-meta">
+          <div class="meta-item">
+            <span class="meta-label">Complexity</span>
+            <span class="meta-value">7.6/10</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Milestones</span>
+            <span class="meta-value">7</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">User Stories</span>
+            <span class="meta-value">50+</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Subtasks</span>
+            <span class="meta-value">400+</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Document Body -->
+      <div class="doc-body">
+        <!-- Executive Summary -->
+        <div class="section">
+          <h2 class="section-title">Executive Summary</h2>
+          <div class="section-content">
+            <p>CrossCast is a cross-platform social audio/video chat app MVP enabling iOS, Android, and Web users to discover and join live rooms for casual interaction. Key goals include low-latency real-time voice/video, scalable room discovery and presence, role-based moderation (User/Moderator/Admin), simple social features (follow, profiles), and analytics for moderation.</p>
+            <p style="margin-top: 16px;"><strong>Expected outcomes:</strong> Functional MVP supporting rooms with moderator controls, reliable auth and account management, real-time media via WebRTC + SFU, push notifications, and deployment-ready infrastructure on AWS with CI/CD.</p>
+          </div>
+        </div>
+
+        <!-- Core Functionalities -->
+        <div class="section">
+          <h2 class="section-title">Core Functionalities</h2>
+          <div class="feature-card">
+            <strong>User Authentication & Profiles</strong><br>
+            Secure registration, login (email/phone/SSO), profile management, and follow system
+          </div>
+          <div class="feature-card">
+            <strong>Real-Time Voice & Video Rooms</strong><br>
+            Create, discover, join, and manage live voice/video chat rooms with speaker/listener roles, hand-raising, and moderation controls
+          </div>
+          <div class="feature-card">
+            <strong>Discovery & Social Graph</strong><br>
+            Room discovery (trending, categories, search), user feeds, following, and recommendations based on interests
+          </div>
+          <div class="feature-card">
+            <strong>Moderation & Safety Tools</strong><br>
+            Room-level moderation (mute/kick), reporting, global admin tools, and abuse prevention
+          </div>
+          <div class="feature-card">
+            <strong>Cross-Platform Client & Sync</strong><br>
+            Consistent experience across iOS, Android, and web with state sync, notifications, and media quality adaptation
+          </div>
+        </div>
+
+        <!-- Tech Stack -->
+        <div class="section">
+          <h2 class="section-title">Tech Stack</h2>
+          <div class="tech-grid">
+            <div class="tech-item"><strong>Frontend:</strong> React, Next.js</div>
+            <div class="tech-item"><strong>Mobile:</strong> React Native, Expo</div>
+            <div class="tech-item"><strong>Language:</strong> TypeScript</div>
+            <div class="tech-item"><strong>Backend:</strong> Node.js, NestJS</div>
+            <div class="tech-item"><strong>Database:</strong> PostgreSQL, Prisma</div>
+            <div class="tech-item"><strong>Cache:</strong> Redis</div>
+            <div class="tech-item"><strong>Real-time:</strong> WebRTC, Socket.IO</div>
+            <div class="tech-item"><strong>Media Server:</strong> Mediasoup</div>
+            <div class="tech-item"><strong>Push:</strong> Firebase Cloud Messaging</div>
+            <div class="tech-item"><strong>Auth:</strong> Clerk, OAuth 2.0</div>
+            <div class="tech-item"><strong>Monitoring:</strong> Sentry, Prometheus</div>
+            <div class="tech-item"><strong>Infra:</strong> Docker, Kubernetes</div>
+            <div class="tech-item"><strong>Cloud:</strong> AWS (S3, ECS/EKS)</div>
+            <div class="tech-item"><strong>Payments:</strong> Stripe</div>
+          </div>
+        </div>
+
+        <!-- Milestones -->
+        <div class="section">
+          <h2 class="section-title">Implementation Milestones</h2>
+
+          <!-- Milestone 1 -->
+          <div class="milestone">Milestone 1: Project Setup & Infrastructure</div>
+
+          <div class="story">
+            <div class="story-header">
+              <span class="story-title">Configure Environment</span>
+              <span class="story-size">S</span>
+            </div>
+            <div class="story-description">As a DevOps Engineer, I want to configure the runtime and staging environment for the project.</div>
+            <div class="acceptance-criteria">
+              <strong>Acceptance Criteria:</strong>
+              <div class="criteria-item"><input type="checkbox" disabled> Environment variables defined for all stages (dev, test, prod)</div>
+              <div class="criteria-item"><input type="checkbox" disabled> Dockerfile updated for environment reproducibility</div>
+              <div class="criteria-item"><input type="checkbox" disabled> Environment validation script runs successfully in CI</div>
+              <div class="criteria-item"><input type="checkbox" disabled> Sensitive data stored securely (not in version control)</div>
+            </div>
+            <div class="subtasks">
+              <div class="subtask"><input type="checkbox" disabled> Add .env.example for dev/test/prod at apps/api/.env.example <span class="subtask-size">S</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Update container Dockerfile at apps/api/Dockerfile <span class="subtask-size">S</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Create CI env validation workflow in .github/workflows/env-validate.yml <span class="subtask-size">S</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Add Kubernetes manifests for staging/prod in deploy/k8s/ <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Integrate secrets management using AWS Secrets Manager <span class="subtask-size">M</span></div>
+            </div>
+          </div>
+
+          <div class="story">
+            <div class="story-header">
+              <span class="story-title">Setup CI Pipeline</span>
+              <span class="story-size">M</span>
+            </div>
+            <div class="story-description">As a CI/CD Engineer, I want to set up the CI pipeline for automated builds and tests.</div>
+            <div class="acceptance-criteria">
+              <strong>Acceptance Criteria:</strong>
+              <div class="criteria-item"><input type="checkbox" disabled> CI runs on push and PRs</div>
+              <div class="criteria-item"><input type="checkbox" disabled> Build artifacts published to artifact repository</div>
+              <div class="criteria-item"><input type="checkbox" disabled> Tests run and must pass with 0 failures</div>
+            </div>
+            <div class="subtasks">
+              <div class="subtask"><input type="checkbox" disabled> Add workflow file .github/workflows/ci.yml <span class="subtask-size">S</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Add build step using Dockerfile <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Run unit and integration tests <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Implement publish script scripts/publish_artifact.sh <span class="subtask-size">S</span></div>
+            </div>
+          </div>
+
+          <div class="story">
+            <div class="story-header">
+              <span class="story-title">Initialize Design System</span>
+              <span class="story-size">M</span>
+            </div>
+            <div class="story-description">As a UI/UX Engineer, I want to initialize the design system with consistent components and tokens.</div>
+            <div class="subtasks">
+              <div class="subtask"><input type="checkbox" disabled> Define design tokens in packages/design-system/tokens/tokens.ts <span class="subtask-size">S</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Integrate tokens with theme system <span class="subtask-size">S</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Build Button component <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Build Input component <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Add visual regression tests <span class="subtask-size">M</span></div>
+            </div>
+          </div>
+
+          <!-- Milestone 2 -->
+          <div class="milestone">Milestone 2: User Authentication & Onboarding</div>
+
+          <div class="story">
+            <div class="story-header">
+              <span class="story-title">Signup (Email/Phone)</span>
+              <span class="story-size">S</span>
+            </div>
+            <div class="story-description">As a user, I want to sign up using email or phone number to access the platform.</div>
+            <div class="acceptance-criteria">
+              <strong>Acceptance Criteria:</strong>
+              <div class="criteria-item"><input type="checkbox" disabled> User can sign up with valid email or phone</div>
+              <div class="criteria-item"><input type="checkbox" disabled> System validates format and uniqueness</div>
+              <div class="criteria-item"><input type="checkbox" disabled> User receives confirmation upon successful signup</div>
+              <div class="criteria-item"><input type="checkbox" disabled> Password requirements enforced</div>
+            </div>
+            <div class="subtasks">
+              <div class="subtask"><input type="checkbox" disabled> DB: Create users table migration in prisma/migrations <span class="subtask-size">S</span></div>
+              <div class="subtask"><input type="checkbox" disabled> API: Implement password validation in AuthService.ts <span class="subtask-size">S</span></div>
+              <div class="subtask"><input type="checkbox" disabled> API: Add findByEmail/findByPhone uniqueness checks <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> API: Implement postSignup handler <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Frontend: Build SignupForm component <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Mobile: Add AuthScreen handleSignup <span class="subtask-size">S</span></div>
+            </div>
+          </div>
+
+          <div class="story">
+            <div class="story-header">
+              <span class="story-title">OAuth Sign-in (Apple/Google)</span>
+              <span class="story-size">M</span>
+            </div>
+            <div class="story-description">As a user, I want to sign in using OAuth providers Apple or Google.</div>
+            <div class="subtasks">
+              <div class="subtask"><input type="checkbox" disabled> DB: Create OAuthAccount table migration <span class="subtask-size">S</span></div>
+              <div class="subtask"><input type="checkbox" disabled> API: Implement signInWithOAuth <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Web: Build OAuthButtons component <span class="subtask-size">XS</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Mobile: Implement handleOAuth using Expo AuthSession <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> API: Add token exchange helpers <span class="subtask-size">M</span></div>
+            </div>
+          </div>
+
+          <div class="story">
+            <div class="story-header">
+              <span class="story-title">Two-Factor Auth (TOTP/SMS)</span>
+              <span class="story-size">L</span>
+            </div>
+            <div class="story-description">As a user, I want to enable two-factor authentication for extra security.</div>
+            <div class="subtasks">
+              <div class="subtask"><input type="checkbox" disabled> DB: Add 2FA fields and backup_codes to users <span class="subtask-size">S</span></div>
+              <div class="subtask"><input type="checkbox" disabled> API: Implement enableTOTP <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> API: Create TOTPService <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> API: Create SMSService <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Web: Build MFAForm component <span class="subtask-size">M</span></div>
+            </div>
+          </div>
+
+          <!-- Milestone 3 -->
+          <div class="milestone">Milestone 3: Discovery & Social Feed</div>
+
+          <div class="story">
+            <div class="story-header">
+              <span class="story-title">Home Feed</span>
+              <span class="story-size">L</span>
+            </div>
+            <div class="story-description">As a user, I want a personalized home feed with live and upcoming rooms.</div>
+            <div class="subtasks">
+              <div class="subtask"><input type="checkbox" disabled> DB: Create rooms and room_participants tables <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> API: Implement getFeed with pagination <span class="subtask-size">L</span></div>
+              <div class="subtask"><input type="checkbox" disabled> API: Add personalization based on follows <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Web: Build HomeFeed component <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> API: Implement real-time feed updates via Socket.IO <span class="subtask-size">M</span></div>
+            </div>
+          </div>
+
+          <div class="story">
+            <div class="story-header">
+              <span class="story-title">Follow Hosts</span>
+              <span class="story-size">M</span>
+            </div>
+            <div class="story-description">As a user, I want to follow/unfollow hosts for updates.</div>
+            <div class="subtasks">
+              <div class="subtask"><input type="checkbox" disabled> DB: Create user_follows table <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> API: Implement followHost/unfollowHost <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> API: Implement NotificationsService <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Web: Add Follow button to RoomCard <span class="subtask-size">M</span></div>
+            </div>
+          </div>
+
+          <!-- Milestone 4 -->
+          <div class="milestone">Milestone 4: Real-Time Room Sessions & Moderation</div>
+
+          <div class="story">
+            <div class="story-header">
+              <span class="story-title">Speaker Request</span>
+              <span class="story-size">S</span>
+            </div>
+            <div class="story-description">As a participant, I want to request to speak in a room.</div>
+            <div class="subtasks">
+              <div class="subtask"><input type="checkbox" disabled> DB: Add isSpeakerRequested to RoomSessionSchema <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> API: Add requestToSpeak handler <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Realtime: Implement SignalingService.requestToSpeak <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Infra: Use Redis TTL for request expiry <span class="subtask-size">M</span></div>
+            </div>
+          </div>
+
+          <div class="story">
+            <div class="story-header">
+              <span class="story-title">Moderator Mute User</span>
+              <span class="story-size">S</span>
+            </div>
+            <div class="story-description">As a moderator, I want to mute a participant in the room.</div>
+            <div class="subtasks">
+              <div class="subtask"><input type="checkbox" disabled> API: Implement moderatorMuteUser <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Realtime: Add muteUser handling <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Mediasoup: Handle moderator mute <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Web: Add 'Mute Participant' UI <span class="subtask-size">M</span></div>
+            </div>
+          </div>
+
+          <div class="story">
+            <div class="story-header">
+              <span class="story-title">Review Reports</span>
+              <span class="story-size">M</span>
+            </div>
+            <div class="story-description">As a moderator, I want to review user-reported content.</div>
+            <div class="subtasks">
+              <div class="subtask"><input type="checkbox" disabled> DB: Create reports table <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> DB: Add moderation_actions table <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> API: Implement ReportsRepository <span class="subtask-size">M</span></div>
+              <div class="subtask"><input type="checkbox" disabled> Frontend: Build ModerationQueue component <span class="subtask-size">M</span></div>
+            </div>
+          </div>
+
+          <!-- Milestone 5-7 Summary -->
+          <div class="milestone">Milestone 5: Admin Dashboard & Role Management</div>
+          <div class="section-content" style="padding: 16px; background: #f7fafc; border-radius: 8px;">
+            <p><strong>Platform Analytics</strong> - View platform analytics dashboards with metrics aggregation</p>
+            <p style="margin-top: 8px;"><strong>Role & Permission Management</strong> - Manage roles and permissions with RBAC</p>
+            <p style="margin-top: 8px;"><strong>System Health & Alerts</strong> - Monitor system health with Prometheus/Grafana</p>
+            <p style="margin-top: 8px;"><strong>Audit Log View</strong> - View audit logs across platform with CSV export</p>
+          </div>
+
+          <div class="milestone">Milestone 6: User Settings & Error Handling</div>
+          <div class="section-content" style="padding: 16px; background: #f7fafc; border-radius: 8px;">
+            <p><strong>Profile Privacy</strong> - Configure profile privacy settings (Public/Friends/Private)</p>
+            <p style="margin-top: 8px;"><strong>Notification Preferences</strong> - Customize push/email/SMS notification preferences</p>
+            <p style="margin-top: 8px;"><strong>Blocked Users</strong> - Manage blocked users list with cross-platform enforcement</p>
+            <p style="margin-top: 8px;"><strong>Connected Accounts</strong> - Connect/disconnect external OAuth accounts</p>
+          </div>
+
+          <div class="milestone">Milestone 7: Documentation, Deployment & Release</div>
+          <div class="section-content" style="padding: 16px; background: #f7fafc; border-radius: 8px;">
+            <p><strong>Deploy Infrastructure</strong> - Terraform modules for AWS, Kubernetes manifests</p>
+            <p style="margin-top: 8px;"><strong>Configure Monitoring</strong> - Prometheus, Grafana dashboards, alerting</p>
+            <p style="margin-top: 8px;"><strong>SSL & Domain Setup</strong> - AWS ACM certificates, Route53, CloudFront</p>
+            <p style="margin-top: 8px;"><strong>API Documentation</strong> - OpenAPI spec, Swagger UI</p>
+            <p style="margin-top: 8px;"><strong>App Store Submission</strong> - iOS App Store and Google Play submission</p>
+          </div>
+        </div>
+
+        <!-- Development Guidelines -->
+        <div class="section">
+          <h2 class="section-title">Development Guidelines</h2>
+          <div class="guideline">
+            <span class="guideline-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span><strong>Audio Latency:</strong> Target sub-200ms end-to-end latency for voice communication</span>
+          </div>
+          <div class="guideline">
+            <span class="guideline-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span><strong>Scalability:</strong> Design for 100+ concurrent participants per room</span>
+          </div>
+          <div class="guideline">
+            <span class="guideline-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span><strong>Cross-Platform:</strong> Maintain feature parity between web and mobile</span>
+          </div>
+          <div class="guideline">
+            <span class="guideline-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span><strong>Security:</strong> Implement RBAC, audit logging, encrypted storage</span>
+          </div>
+          <div class="guideline">
+            <span class="guideline-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span><strong>Testing:</strong> Comprehensive unit, integration, and E2E tests</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Document Footer -->
+      <div class="doc-footer">
+        <div class="footer-logo">pangea.ai</div>
+        <p class="footer-text">Generated with <a href="https://pre.dev" target="_blank">pre.dev</a> AI specifications</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll to top -->
+  <button class="scroll-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Scroll to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+
+  <script>
+    function downloadSpec() {
+      alert('Downloading CrossCast-Specs.pdf...');
+    }
+  </script>
+</body>
+</html>

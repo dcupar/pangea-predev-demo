@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pangea - Find Top Tech Talent</title>
+  <link rel="stylesheet" href="styles/pangea-mockup.css">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="navbar-logo">pangea.ai</div>
+    <div class="navbar-links">
+      <a href="#" class="navbar-link">For Companies</a>
+      <a href="#" class="navbar-link">For Talent</a>
+      <a href="#" class="navbar-link">For Agencies</a>
+      <a href="#" class="navbar-link">Resources</a>
+      <a href="#" class="navbar-cta">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1 class="hero-title">Go from idea to specs in minutes</h1>
+    <p class="hero-description">Describe your product and get specs, milestones, and estimates.</p>
+
+    <!-- Prompt Input -->
+    <div class="prompt-box">
+      <textarea
+        class="prompt-textarea"
+        id="projectPrompt"
+        placeholder="I would like to build a virtual reality meditation space..."
+      ></textarea>
+      <div class="prompt-actions">
+        <button class="attach-btn" title="Upload document">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+          </svg>
+        </button>
+        <div class="prompt-right-actions">
+          <button class="start-btn" id="generateBtn" onclick="openSignupModal()">
+            Generate Specs
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Design Comparison Section -->
+    <div class="design-comparison">
+      <p class="comparison-label">Design options for stakeholder review:</p>
+
+      <!-- Design Option A: Cards -->
+      <div class="design-option">
+        <div class="design-option-header">
+          <span class="design-option-badge">A</span>
+          <span class="design-option-title">Cards layout</span>
+        </div>
+        <div class="design-option-content">
+          <p class="options-label">Or explore other ways to work with us:</p>
+          <div class="options-grid">
+            <a href="/brief/configure" class="option-card">
+              <span class="option-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </span>
+              <span class="option-title">Team Augmentation</span>
+              <span class="option-desc">Add skilled developers to your team</span>
+            </a>
+            <a href="/brief/configure" class="option-card">
+              <span class="option-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                </svg>
+              </span>
+              <span class="option-title">Dedicated Teams</span>
+              <span class="option-desc">Build-Operate-Transfer model</span>
+            </a>
+            <a href="/brief/configure" class="option-card">
+              <span class="option-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+                </svg>
+              </span>
+              <span class="option-title">Fractional Leaders</span>
+              <span class="option-desc">Part-time CTOs & tech leads</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Design Option B: Simple text links -->
+      <div class="design-option">
+        <div class="design-option-header">
+          <span class="design-option-badge">B</span>
+          <span class="design-option-title">Text links</span>
+        </div>
+        <div class="design-option-content">
+          <p class="text-links-option">
+            Or explore: <a href="/brief/configure">Team Augmentation</a>, <a href="/brief/configure">Dedicated Teams</a>, <a href="/brief/configure">Fractional Leaders</a> <span class="arrow">→</span>
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Trust Section -->
+  <section class="trust-section">
+    <p class="trust-title">TRUSTED BY LEADING COMPANIES</p>
+    <div class="trust-logos">
+      <span style="font-weight: 600; color: #333;">Notion</span>
+      <span style="font-weight: 600; color: #333;">Stripe</span>
+      <span style="font-weight: 600; color: #333;">Figma</span>
+      <span style="font-weight: 600; color: #333;">Vercel</span>
+      <span style="font-weight: 600; color: #333;">Linear</span>
+    </div>
+  </section>
+
+  <!-- Signup Modal -->
+  <div class="modal-overlay" id="signupModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeSignupModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <!-- Form State -->
+      <div id="formState">
+        <div class="modal-header">
+          <h3 class="modal-title">First off, let's get introduced.</h3>
+        </div>
+
+        <form id="signupForm" onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <input type="text" class="form-input" id="firstName" placeholder="First name" required>
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-input" id="lastName" placeholder="Last name" required>
+            </div>
+          </div>
+
+          <div class="form-group full-width" style="margin-bottom: var(--spacing-md);">
+            <input type="email" class="form-input" id="email" placeholder="Work email" required>
+          </div>
+
+          <div class="form-group full-width" style="margin-bottom: var(--spacing-md);">
+            <label class="form-label">Company name<span class="required">*</span></label>
+            <input type="text" class="form-input" id="companyName" placeholder="e.g Stripe" required>
+          </div>
+
+          <div class="form-group full-width" style="margin-bottom: var(--spacing-md);">
+            <label class="form-label">What is your role<span class="required">*</span></label>
+            <select class="form-select" id="role" required>
+              <option value="">Select</option>
+              <option value="founder">Founder / CEO</option>
+              <option value="cto">CTO / Technical Lead</option>
+              <option value="product">Product Manager</option>
+              <option value="engineering">Engineering Manager</option>
+              <option value="operations">Operations</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group full-width" style="margin-bottom: var(--spacing-md);">
+            <label class="form-label">Phone number</label>
+            <div class="phone-input-wrapper">
+              <select class="form-select phone-country" id="phoneCountry">
+                <option value="+1">🇺🇸 +1</option>
+                <option value="+44">🇬🇧 +44</option>
+                <option value="+385">🇭🇷 +385</option>
+                <option value="+49">🇩🇪 +49</option>
+                <option value="+33">🇫🇷 +33</option>
+              </select>
+              <input type="tel" class="form-input phone-number" id="phoneNumber" placeholder="">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Budget range</label>
+              <select class="form-select" id="budget">
+                <option value="">Select</option>
+                <option value="<25k">Less than $25k</option>
+                <option value="25k-50k">$25k - $50k</option>
+                <option value="50k-100k">$50k - $100k</option>
+                <option value="100k-250k">$100k - $250k</option>
+                <option value=">250k">More than $250k</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Timeline</label>
+              <select class="form-select" id="timeline">
+                <option value="">Select</option>
+                <option value="asap">ASAP</option>
+                <option value="1-2months">1-2 months</option>
+                <option value="3-6months">3-6 months</option>
+                <option value="6+months">6+ months</option>
+              </select>
+            </div>
+          </div>
+
+          <p class="form-terms">
+            By completing signup, you agree to Pangea.ai's <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>, and that Pangea.ai may monitor or record audio or video calls for quality assurance and training purposes
+          </p>
+
+          <button type="submit" class="modal-button">
+            Generate My Specifications
+          </button>
+        </form>
+
+        <div class="modal-footer">
+          <p class="modal-footer-text">
+            Already have an account? <a href="#" class="modal-footer-link">Log in</a>
+          </p>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div class="loading-state" id="loadingState">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Generating your project specifications...</p>
+        <p class="loading-text" style="font-size: 14px; color: var(--text-muted);">This may take up to 30 seconds</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Modal Controls
+    function openSignupModal() {
+      const prompt = document.getElementById('projectPrompt').value.trim();
+      if (!prompt) {
+        alert('Please describe your project first');
+        return;
+      }
+      document.getElementById('signupModal').classList.add('active');
+    }
+
+    function closeSignupModal() {
+      document.getElementById('signupModal').classList.remove('active');
+      // Reset to form state
+      document.getElementById('formState').style.display = 'block';
+      document.getElementById('loadingState').classList.remove('active');
+    }
+
+    function handleSubmit(event) {
+      event.preventDefault();
+
+      // Get the project prompt
+      const prompt = document.getElementById('projectPrompt').value.trim();
+
+      // Show loading state in modal briefly
+      document.getElementById('formState').style.display = 'none';
+      document.getElementById('loadingState').classList.add('active');
+
+      // After brief delay, redirect to loading page (simulates API call starting)
+      setTimeout(() => {
+        // Redirect to loading page with the prompt
+        window.location.href = 'loading.html?prompt=' + encodeURIComponent(prompt);
+      }, 1500);
+    }
+
+    // Close modal on overlay click
+    document.getElementById('signupModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeSignupModal();
+      }
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeSignupModal();
+      }
+    });
+
+  </script>
+</body>
+</html>

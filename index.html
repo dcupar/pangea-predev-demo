@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pangea + Pre.dev Integration Demo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: #176448;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #718096;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #d1fae5;
+      color: #176448;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-top: 16px;
+    }
+
+    .flows-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 48px;
+    }
+
+    .flow-card {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .flow-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #1a202c;
+      margin-bottom: 8px;
+    }
+
+    .flow-description {
+      font-size: 14px;
+      color: #718096;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .flow-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .flow-step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .step-number {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #d1fae5;
+      color: #176448;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .step-link {
+      color: #22896a;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .step-link:hover {
+      color: #176448;
+      text-decoration: underline;
+    }
+
+    .start-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #22896a, #176448);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 600;
+      margin-top: 24px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .start-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(34, 137, 106, 0.3);
+    }
+
+    .start-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .info-section {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .info-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a202c;
+      margin-bottom: 16px;
+    }
+
+    .info-text {
+      font-size: 14px;
+      color: #4a5568;
+      line-height: 1.7;
+    }
+
+    .info-text strong {
+      color: #176448;
+    }
+
+    @media (max-width: 768px) {
+      .flows-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">pangea.ai</div>
+      <div class="subtitle">Pre.dev Integration Prototype</div>
+      <span class="badge">Demo for Stakeholders</span>
+    </div>
+
+    <div class="flows-grid">
+      <!-- Client Flow -->
+      <div class="flow-card">
+        <h2 class="flow-title">Client Flow</h2>
+        <p class="flow-description">Experience how clients submit projects and receive AI-generated specifications.</p>
+
+        <div class="flow-steps">
+          <div class="flow-step">
+            <span class="step-number">1</span>
+            <a href="homepage-hero.html" class="step-link">Homepage Hero</a>
+          </div>
+          <div class="flow-step">
+            <span class="step-number">2</span>
+            <a href="signup-modal.html" class="step-link">Signup Modal</a>
+          </div>
+          <div class="flow-step">
+            <span class="step-number">3</span>
+            <a href="loading.html" class="step-link">Loading/Generation</a>
+          </div>
+          <div class="flow-step">
+            <span class="step-number">4</span>
+            <a href="client-homepage.html" class="step-link">Client Dashboard</a>
+          </div>
+          <div class="flow-step">
+            <span class="step-number">5</span>
+            <a href="project-page.html" class="step-link">Project Details</a>
+          </div>
+          <div class="flow-step">
+            <span class="step-number">6</span>
+            <a href="spec-viewer.html" class="step-link">Full Specifications</a>
+          </div>
+        </div>
+
+        <a href="homepage-hero.html" class="start-btn">
+          Start Client Flow
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Agency Flow -->
+      <div class="flow-card">
+        <h2 class="flow-title">Agency Flow</h2>
+        <p class="flow-description">See how agencies browse opportunities and view detailed project specifications.</p>
+
+        <div class="flow-steps">
+          <div class="flow-step">
+            <span class="step-number">1</span>
+            <a href="agency-opportunities.html" class="step-link">Opportunities List</a>
+          </div>
+          <div class="flow-step">
+            <span class="step-number">2</span>
+            <a href="opportunity-detail.html" class="step-link">Opportunity Detail</a>
+          </div>
+          <div class="flow-step">
+            <span class="step-number">3</span>
+            <a href="spec-viewer.html" class="step-link">Full Specifications</a>
+          </div>
+        </div>
+
+        <a href="agency-opportunities.html" class="start-btn">
+          Start Agency Flow
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h3 class="info-title">About This Prototype</h3>
+      <p class="info-text">
+        This prototype demonstrates the integration of <strong>pre.dev AI</strong> specifications into the Pangea platform.
+        The mockups show both client-facing and agency-facing interfaces, showcasing how AI-generated technical specifications
+        enhance the brief submission and opportunity evaluation process. All pages are static HTML/CSS for easy reference
+        and Webflow implementation.
+      </p>
+    </div>
+  </div>
+</body>
+</html>

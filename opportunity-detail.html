@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CrossCast - Opportunity Details - Pangea</title>
+  <link rel="stylesheet" href="styles/pangea-mockup.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f7fafc;
+      min-height: 100vh;
+    }
+
+    /* Layout */
+    .app-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      background: white;
+      border-right: 1px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      height: 100vh;
+      z-index: 100;
+    }
+
+    .sidebar-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .sidebar-logo {
+      font-size: 22px;
+      font-weight: 700;
+      color: #176448;
+    }
+
+    .sidebar-subtitle {
+      font-size: 12px;
+      color: #718096;
+      margin-top: 4px;
+    }
+
+    .sidebar-nav {
+      padding: 16px 12px;
+      flex: 1;
+    }
+
+    .nav-section {
+      margin-bottom: 24px;
+    }
+
+    .nav-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: #a0aec0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 0 12px;
+      margin-bottom: 8px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 8px;
+      color: #4a5568;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+      margin-bottom: 4px;
+    }
+
+    .nav-item:hover {
+      background: #f7fafc;
+      color: #1a202c;
+    }
+
+    .nav-item.active {
+      background: #d1fae5;
+      color: #176448;
+    }
+
+    .nav-item svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .nav-badge {
+      background: #22896a;
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-left: auto;
+    }
+
+    .sidebar-footer {
+      padding: 16px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .user-profile:hover {
+      background: #f7fafc;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #22896a, #176448);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .user-info {
+      flex: 1;
+    }
+
+    .user-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a202c;
+    }
+
+    .user-role {
+      font-size: 12px;
+      color: #718096;
+    }
+
+    /* Main content */
+    .main-content {
+      flex: 1;
+      margin-left: 260px;
+      padding: 32px;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #718096;
+      margin-bottom: 24px;
+    }
+
+    .breadcrumb a {
+      color: #22896a;
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    /* Page header */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 32px;
+    }
+
+    .header-info {
+      flex: 1;
+    }
+
+    .header-tags {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .tag {
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .tag-project {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .tag-new {
+      background: #22896a;
+      color: white;
+    }
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1a202c;
+      margin-bottom: 8px;
+    }
+
+    .page-meta {
+      display: flex;
+      gap: 24px;
+      font-size: 14px;
+      color: #718096;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: #22896a;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #1d7a5e;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #4a5568;
+      border: 1px solid #e2e8f0;
+    }
+
+    .btn-secondary:hover {
+      background: #f7fafc;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #22896a;
+      border: 1px solid #22896a;
+    }
+
+    .btn-outline:hover {
+      background: #d1fae5;
+    }
+
+    /* Content grid */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+    }
+
+    /* Cards */
+    .card {
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a202c;
+    }
+
+    .card-body {
+      padding: 24px;
+    }
+
+    /* Brief details */
+    .brief-section {
+      margin-bottom: 24px;
+    }
+
+    .brief-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .brief-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #718096;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .brief-value {
+      font-size: 15px;
+      color: #1a202c;
+      line-height: 1.6;
+    }
+
+    .brief-value p {
+      margin-bottom: 12px;
+    }
+
+    .brief-value p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Tags list */
+    .tags-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tech-tag {
+      background: #f3e8ff;
+      color: #7c3aed;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .domain-tag {
+      background: #fef3c7;
+      color: #92400e;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* Key details sidebar */
+    .key-detail {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .key-detail:last-child {
+      border-bottom: none;
+    }
+
+    .key-detail-label {
+      font-size: 14px;
+      color: #718096;
+    }
+
+    .key-detail-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a202c;
+      text-align: right;
+    }
+
+    .key-detail-value.highlight {
+      color: #22896a;
+    }
+
+    .key-detail-value.urgent {
+      color: #e53e3e;
+    }
+
+    /* Status banner */
+    .status-banner {
+      background: #d1fae5;
+      border: 1px solid #6ee7b7;
+      border-radius: 8px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .status-banner.warning {
+      background: #fef3c7;
+      border-color: #fcd34d;
+    }
+
+    .status-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #22896a;
+    }
+
+    .status-banner.warning .status-icon {
+      color: #d97706;
+    }
+
+    .status-text {
+      flex: 1;
+    }
+
+    .status-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a202c;
+      margin-bottom: 2px;
+    }
+
+    .status-subtitle {
+      font-size: 13px;
+      color: #4a5568;
+    }
+
+    /* Specs card */
+    .specs-card {
+      background: linear-gradient(135deg, #176448, #22896a);
+      color: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin-top: 24px;
+    }
+
+    .specs-card-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .specs-card-subtitle {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-bottom: 20px;
+    }
+
+    .specs-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .specs-stat {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    .specs-stat-value {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .specs-stat-label {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    .btn-specs {
+      width: 100%;
+      background: white;
+      color: #176448;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-specs:hover {
+      background: #f0fdf4;
+    }
+
+    /* Documents */
+    .document-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: #f7fafc;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .document-item:hover {
+      background: #e2e8f0;
+    }
+
+    .document-icon {
+      width: 40px;
+      height: 40px;
+      background: white;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e53e3e;
+    }
+
+    .document-info {
+      flex: 1;
+    }
+
+    .document-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1a202c;
+    }
+
+    .document-size {
+      font-size: 12px;
+      color: #718096;
+    }
+
+    /* Timeline */
+    .timeline {
+      padding: 0;
+      list-style: none;
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 16px;
+      padding-bottom: 20px;
+      position: relative;
+    }
+
+    .timeline-item:last-child {
+      padding-bottom: 0;
+    }
+
+    .timeline-item:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 32px;
+      bottom: 0;
+      width: 2px;
+      background: #e2e8f0;
+    }
+
+    .timeline-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #d1fae5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #22896a;
+      flex-shrink: 0;
+      z-index: 1;
+    }
+
+    .timeline-content {
+      flex: 1;
+    }
+
+    .timeline-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1a202c;
+    }
+
+    .timeline-date {
+      font-size: 12px;
+      color: #718096;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">pangea.ai</div>
+        <div class="sidebar-subtitle">Agency Portal</div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-title">Overview</div>
+          <a href="#" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"/>
+              <rect x="14" y="3" width="7" height="7"/>
+              <rect x="3" y="14" width="7" height="7"/>
+              <rect x="14" y="14" width="7" height="7"/>
+            </svg>
+            Dashboard
+          </a>
+          <a href="agency-opportunities.html" class="nav-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+              <line x1="9" y1="9" x2="9.01" y2="9"/>
+              <line x1="15" y1="9" x2="15.01" y2="9"/>
+            </svg>
+            Opportunities
+            <span class="nav-badge">12</span>
+          </a>
+          <a href="#" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+            Applications
+          </a>
+          <a href="#" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>
+            Projects
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">Resources</div>
+          <a href="#" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            Team Members
+          </a>
+          <a href="#" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="20" x2="18" y2="10"/>
+              <line x1="12" y1="20" x2="12" y2="4"/>
+              <line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+            Analytics
+          </a>
+          <a href="#" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+            Settings
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div class="user-avatar">TC</div>
+          <div class="user-info">
+            <div class="user-name">TechCraft Studio</div>
+            <div class="user-role">Premium Partner</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content">
+      <!-- Breadcrumb -->
+      <div class="breadcrumb">
+        <a href="agency-opportunities.html">Opportunities</a>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+        <span>CrossCast - Social Audio/Video Chat Platform</span>
+      </div>
+
+      <!-- Page header -->
+      <div class="page-header">
+        <div class="header-info">
+          <div class="header-tags">
+            <span class="tag tag-project">Project Work</span>
+            <span class="tag tag-new">NEW</span>
+          </div>
+          <h1 class="page-title">CrossCast - Social Audio/Video Chat Platform</h1>
+          <div class="page-meta">
+            <div class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+              TechVentures Inc.
+            </div>
+            <div class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              Posted Nov 25, 2025
+            </div>
+            <div class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              Brief ID: 4851
+            </div>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+            </svg>
+            Save
+          </button>
+          <button class="btn btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+            Apply Now
+          </button>
+        </div>
+      </div>
+
+      <!-- Status banner -->
+      <div class="status-banner warning">
+        <div class="status-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <div class="status-text">
+          <div class="status-title">Application deadline approaching</div>
+          <div class="status-subtitle">5 days left to submit your application (Dec 15, 2025)</div>
+        </div>
+        <button class="btn btn-primary">Apply Now</button>
+      </div>
+
+      <!-- Content grid -->
+      <div class="content-grid">
+        <!-- Main content -->
+        <div>
+          <!-- Project Description -->
+          <div class="card" style="margin-bottom: 24px;">
+            <div class="card-header">
+              <h2 class="card-title">Project Description</h2>
+            </div>
+            <div class="card-body">
+              <div class="brief-section">
+                <div class="brief-value">
+                  <p>We are looking for an experienced development team to build CrossCast, a cross-platform social audio and video chat application MVP. The platform should enable iOS, Android, and Web users to discover and join live rooms for casual interaction.</p>
+                  <p>Key requirements include:</p>
+                  <p>- Low-latency real-time voice and video communication (sub-200ms)<br>
+                  - Scalable room discovery and presence system<br>
+                  - Role-based moderation (User/Moderator/Admin)<br>
+                  - Simple social features (follow, profiles)<br>
+                  - Analytics for moderation</p>
+                  <p>The expected outcome is a functional MVP supporting rooms with moderator controls, reliable authentication and account management, real-time media via WebRTC + SFU, push notifications, and deployment-ready infrastructure on AWS with CI/CD.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Requirements -->
+          <div class="card" style="margin-bottom: 24px;">
+            <div class="card-header">
+              <h2 class="card-title">Requirements</h2>
+            </div>
+            <div class="card-body">
+              <div class="brief-section">
+                <div class="brief-label">Tech Stack</div>
+                <div class="tags-list">
+                  <span class="tech-tag">React</span>
+                  <span class="tech-tag">React Native</span>
+                  <span class="tech-tag">Next.js</span>
+                  <span class="tech-tag">TypeScript</span>
+                  <span class="tech-tag">Node.js</span>
+                  <span class="tech-tag">NestJS</span>
+                  <span class="tech-tag">WebRTC</span>
+                  <span class="tech-tag">Mediasoup</span>
+                  <span class="tech-tag">PostgreSQL</span>
+                  <span class="tech-tag">Redis</span>
+                  <span class="tech-tag">AWS</span>
+                  <span class="tech-tag">Kubernetes</span>
+                </div>
+              </div>
+
+              <div class="brief-section" style="margin-top: 24px;">
+                <div class="brief-label">Domains</div>
+                <div class="tags-list">
+                  <span class="domain-tag">Social Media</span>
+                  <span class="domain-tag">Real-time Communication</span>
+                  <span class="domain-tag">Mobile Apps</span>
+                </div>
+              </div>
+
+              <div class="brief-section" style="margin-top: 24px;">
+                <div class="brief-label">Services Required</div>
+                <div class="tags-list">
+                  <span class="domain-tag">Full-Stack Development</span>
+                  <span class="domain-tag">Mobile Development</span>
+                  <span class="domain-tag">DevOps</span>
+                  <span class="domain-tag">UI/UX Design</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Documents -->
+          <div class="card" style="margin-bottom: 24px;">
+            <div class="card-header">
+              <h2 class="card-title">Attached Documents</h2>
+            </div>
+            <div class="card-body">
+              <div class="document-item">
+                <div class="document-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                  </svg>
+                </div>
+                <div class="document-info">
+                  <div class="document-name">CrossCast_PRD.pdf</div>
+                  <div class="document-size">2.4 MB</div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#718096" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+              </div>
+              <div class="document-item">
+                <div class="document-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                  </svg>
+                </div>
+                <div class="document-info">
+                  <div class="document-name">UI_Wireframes.fig</div>
+                  <div class="document-size">8.1 MB</div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#718096" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Activity Timeline -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Activity</h2>
+            </div>
+            <div class="card-body">
+              <ul class="timeline">
+                <li class="timeline-item">
+                  <div class="timeline-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                  </div>
+                  <div class="timeline-content">
+                    <div class="timeline-title">Application deadline extended</div>
+                    <div class="timeline-date">Nov 28, 2025</div>
+                  </div>
+                </li>
+                <li class="timeline-item">
+                  <div class="timeline-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                      <polyline points="14 2 14 8 20 8"/>
+                    </svg>
+                  </div>
+                  <div class="timeline-content">
+                    <div class="timeline-title">AI Specifications generated</div>
+                    <div class="timeline-date">Nov 26, 2025</div>
+                  </div>
+                </li>
+                <li class="timeline-item">
+                  <div class="timeline-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  </div>
+                  <div class="timeline-content">
+                    <div class="timeline-title">Opportunity published</div>
+                    <div class="timeline-date">Nov 25, 2025</div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div>
+          <!-- Key Details -->
+          <div class="card" style="margin-bottom: 24px;">
+            <div class="card-header">
+              <h2 class="card-title">Key Details</h2>
+            </div>
+            <div class="card-body">
+              <div class="key-detail">
+                <span class="key-detail-label">Budget</span>
+                <span class="key-detail-value highlight">$80,000 - $120,000</span>
+              </div>
+              <div class="key-detail">
+                <span class="key-detail-label">Currency</span>
+                <span class="key-detail-value">EUR</span>
+              </div>
+              <div class="key-detail">
+                <span class="key-detail-label">Engagement Type</span>
+                <span class="key-detail-value">Project Work</span>
+              </div>
+              <div class="key-detail">
+                <span class="key-detail-label">Kick-off Timeline</span>
+                <span class="key-detail-value">Within 2-4 weeks</span>
+              </div>
+              <div class="key-detail">
+                <span class="key-detail-label">Deadline</span>
+                <span class="key-detail-value urgent">Dec 15, 2025</span>
+              </div>
+              <div class="key-detail">
+                <span class="key-detail-label">Applications</span>
+                <span class="key-detail-value">8 submitted</span>
+              </div>
+              <div class="key-detail">
+                <span class="key-detail-label">Status</span>
+                <span class="key-detail-value highlight">Open</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Specifications Card -->
+          <div class="specs-card">
+            <div class="specs-card-title">AI-Generated Specifications</div>
+            <div class="specs-card-subtitle">Powered by pre.dev - comprehensive technical breakdown</div>
+            <div class="specs-stats">
+              <div class="specs-stat">
+                <div class="specs-stat-value">7</div>
+                <div class="specs-stat-label">Milestones</div>
+              </div>
+              <div class="specs-stat">
+                <div class="specs-stat-value">50+</div>
+                <div class="specs-stat-label">User Stories</div>
+              </div>
+              <div class="specs-stat">
+                <div class="specs-stat-value">400+</div>
+                <div class="specs-stat-label">Subtasks</div>
+              </div>
+              <div class="specs-stat">
+                <div class="specs-stat-value">7.6</div>
+                <div class="specs-stat-label">Complexity</div>
+              </div>
+            </div>
+            <button class="btn-specs" onclick="window.open('spec-viewer.html', '_blank')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+              View Full Specifications
+            </button>
+          </div>
+
+          <!-- Contact -->
+          <div class="card" style="margin-top: 24px;">
+            <div class="card-header">
+              <h2 class="card-title">Client Contact</h2>
+            </div>
+            <div class="card-body">
+              <div class="key-detail">
+                <span class="key-detail-label">Contact</span>
+                <span class="key-detail-value">Sarah Johnson</span>
+              </div>
+              <div class="key-detail">
+                <span class="key-detail-label">Role</span>
+                <span class="key-detail-value">Product Manager</span>
+              </div>
+              <div class="key-detail">
+                <span class="key-detail-label">Company</span>
+                <span class="key-detail-value">TechVentures Inc.</span>
+              </div>
+              <button class="btn btn-outline" style="width: 100%; margin-top: 16px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+                Contact via Pangea
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

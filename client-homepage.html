@@ -533,6 +533,176 @@
     .toast-close:hover {
       color: #4a5568;
     }
+
+    /* New Project Dropdown */
+    .new-project-wrapper {
+      position: relative;
+    }
+
+    .new-project-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+      width: 380px;
+      z-index: 200;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.2s ease;
+    }
+
+    .new-project-dropdown.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .dropdown-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a202c;
+      margin-bottom: 4px;
+    }
+
+    .dropdown-subtitle {
+      font-size: 13px;
+      color: #718096;
+    }
+
+    .dropdown-options {
+      padding: 12px;
+    }
+
+    .dropdown-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      color: inherit;
+      border: 2px solid transparent;
+    }
+
+    .dropdown-option:hover {
+      background: #f7fafc;
+    }
+
+    .dropdown-option.highlighted {
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      border-color: #22896a;
+    }
+
+    .dropdown-option.highlighted:hover {
+      background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+    }
+
+    .dropdown-option-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .dropdown-option.highlighted .dropdown-option-icon {
+      background: linear-gradient(135deg, #22896a, #176448);
+      color: white;
+    }
+
+    .dropdown-option:not(.highlighted) .dropdown-option-icon {
+      background: #f3f4f6;
+      color: #4a5568;
+    }
+
+    .dropdown-option-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .dropdown-option-content {
+      flex: 1;
+    }
+
+    .dropdown-option-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a202c;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dropdown-option.highlighted .dropdown-option-title {
+      color: #176448;
+    }
+
+    .ai-badge {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: linear-gradient(135deg, #22896a, #176448);
+      color: white;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .dropdown-option-desc {
+      font-size: 13px;
+      color: #718096;
+      line-height: 1.5;
+    }
+
+    .dropdown-option.highlighted .dropdown-option-desc {
+      color: #4a5568;
+    }
+
+    .dropdown-option-arrow {
+      color: #a0aec0;
+      flex-shrink: 0;
+      margin-top: 12px;
+    }
+
+    .dropdown-option:hover .dropdown-option-arrow {
+      color: #4a5568;
+      transform: translateX(2px);
+    }
+
+    .dropdown-option.highlighted .dropdown-option-arrow {
+      color: #22896a;
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: #e2e8f0;
+      margin: 8px 12px;
+    }
+
+    /* Overlay for dropdown */
+    .dropdown-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 150;
+      display: none;
+    }
+
+    .dropdown-overlay.active {
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -563,13 +733,76 @@
   <div class="page-content">
     <div class="page-header">
       <h1 class="page-title">My Projects</h1>
-      <button class="new-project-btn" onclick="window.location.href='homepage-hero.html'">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-        New Project
-      </button>
+      <div class="new-project-wrapper">
+        <button class="new-project-btn" onclick="toggleDropdown()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          New Brief
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 4px;">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+
+        <!-- Dropdown Menu -->
+        <div class="new-project-dropdown" id="projectDropdown">
+          <div class="dropdown-header">
+            <div class="dropdown-title">Start a new brief</div>
+            <div class="dropdown-subtitle">Choose the type of engagement you need</div>
+          </div>
+          <div class="dropdown-options">
+            <!-- Project Work - Highlighted -->
+            <a href="homepage-hero.html" class="dropdown-option highlighted">
+              <div class="dropdown-option-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                  <polyline points="2 17 12 22 22 17"></polyline>
+                  <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
+              </div>
+              <div class="dropdown-option-content">
+                <div class="dropdown-option-title">
+                  Project Work
+                  <span class="ai-badge">AI Specs</span>
+                </div>
+                <div class="dropdown-option-desc">
+                  Develop a product with a fully managed team. Get AI-generated specifications, milestones, and estimates.
+                </div>
+              </div>
+              <svg class="dropdown-option-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+
+            <div class="dropdown-divider"></div>
+
+            <!-- Other Engagements -->
+            <a href="onboarding.html" class="dropdown-option">
+              <div class="dropdown-option-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </div>
+              <div class="dropdown-option-content">
+                <div class="dropdown-option-title">Other Engagements</div>
+                <div class="dropdown-option-desc">
+                  Team augmentation, dedicated remote teams, or fractional CTOs/CPOs.
+                </div>
+              </div>
+              <svg class="dropdown-option-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Overlay to close dropdown -->
+      <div class="dropdown-overlay" id="dropdownOverlay" onclick="closeDropdown()"></div>
     </div>
 
     <!-- In Progress Section -->
@@ -888,6 +1121,28 @@
 
     // Start the progress simulation
     setTimeout(advanceProgress, 1000);
+
+    // Dropdown functions
+    function toggleDropdown() {
+      const dropdown = document.getElementById('projectDropdown');
+      const overlay = document.getElementById('dropdownOverlay');
+      dropdown.classList.toggle('active');
+      overlay.classList.toggle('active');
+    }
+
+    function closeDropdown() {
+      const dropdown = document.getElementById('projectDropdown');
+      const overlay = document.getElementById('dropdownOverlay');
+      dropdown.classList.remove('active');
+      overlay.classList.remove('active');
+    }
+
+    // Close dropdown on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeDropdown();
+      }
+    });
   </script>
 </body>
 </html>

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Pangea.ai</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 32px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: #1a202c;
+    }
+
+    .currency-selector {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: #4a5568;
+    }
+
+    .currency-selector svg {
+      width: 18px;
+      height: 18px;
+      color: #718096;
+    }
+
+    /* Main Content */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 24px 120px;
+      max-width: 720px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .title {
+      font-size: 36px;
+      font-weight: 600;
+      color: #1a202c;
+      text-align: center;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #718096;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    /* Form Section */
+    .form-section {
+      width: 100%;
+      margin-bottom: 40px;
+    }
+
+    .form-label {
+      font-size: 15px;
+      font-weight: 500;
+      color: #1a202c;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .form-label .required {
+      color: #e53e3e;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: inherit;
+      color: #1a202c;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #22896a;
+    }
+
+    .form-input::placeholder {
+      color: #a0aec0;
+    }
+
+    /* Engagement Options */
+    .engagement-section {
+      width: 100%;
+    }
+
+    .engagement-label {
+      font-size: 15px;
+      font-weight: 500;
+      color: #1a202c;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .engagement-label .required {
+      color: #e53e3e;
+    }
+
+    .engagement-hint {
+      font-size: 13px;
+      color: #718096;
+      margin-bottom: 16px;
+    }
+
+    .engagement-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .engagement-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .engagement-option:hover {
+      border-color: #cbd5e0;
+      background: #f7fafc;
+    }
+
+    .engagement-option.selected {
+      border-color: #22896a;
+      background: linear-gradient(135deg, #22896a 0%, #176448 100%);
+    }
+
+    .engagement-option.selected .option-icon {
+      color: white;
+    }
+
+    .engagement-option.selected .option-title {
+      color: white;
+    }
+
+    .engagement-option.selected .option-description {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .option-icon {
+      width: 24px;
+      height: 24px;
+      color: #22896a;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .option-content {
+      flex: 1;
+    }
+
+    .option-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a202c;
+      margin-bottom: 4px;
+    }
+
+    .option-description {
+      font-size: 13px;
+      color: #718096;
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      padding: 20px 32px;
+      background: white;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .btn {
+      padding: 14px 48px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary {
+      background: white;
+      border: 1px solid #e2e8f0;
+      color: #718096;
+    }
+
+    .btn-secondary:hover {
+      background: #f7fafc;
+      border-color: #cbd5e0;
+    }
+
+    .btn-primary {
+      background: #22896a;
+      border: none;
+      color: white;
+      min-width: 320px;
+    }
+
+    .btn-primary:hover {
+      background: #1d7a5e;
+    }
+
+    /* Login link */
+    .login-link {
+      text-align: center;
+      margin-top: 32px;
+      font-size: 14px;
+      color: #718096;
+    }
+
+    .login-link a {
+      color: #22896a;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+
+    /* Note banner */
+    .note-banner {
+      background: #d1fae5;
+      border: 1px solid #22896a;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .note-banner svg {
+      width: 20px;
+      height: 20px;
+      color: #176448;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .note-banner-text {
+      font-size: 14px;
+      color: #176448;
+      line-height: 1.5;
+    }
+
+    .note-banner-text strong {
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">PANGEA</div>
+    <div class="currency-selector">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="2" y1="12" x2="22" y2="12"/>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+      </svg>
+      USD
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+    <h1 class="title">Welcome to Pangea.ai—match with<br>agencies and fractionals</h1>
+    <p class="subtitle">Brief us, and we'll match you with dev agencies and fractionals within hours.</p>
+
+    <!-- Note about Project Work -->
+    <div class="note-banner">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="16" x2="12" y2="12"/>
+        <line x1="12" y1="8" x2="12.01" y2="8"/>
+      </svg>
+      <div class="note-banner-text">
+        <strong>Looking to develop a product with a fully managed team?</strong><br>
+        Use our new <a href="homepage-hero.html" style="color: #176448; font-weight: 600;">AI-powered Project Work flow</a> to get detailed specifications and matched with qualified agencies.
+      </div>
+    </div>
+
+    <!-- Name/Email Form -->
+    <div class="form-section">
+      <label class="form-label">First off, let's get introduced.<span class="required">*</span></label>
+      <div class="form-row">
+        <input type="text" class="form-input" placeholder="First name">
+        <input type="text" class="form-input" placeholder="Last name">
+      </div>
+      <input type="email" class="form-input" placeholder="Work email">
+    </div>
+
+    <!-- Engagement Type Options (without Project Work) -->
+    <div class="engagement-section">
+      <label class="engagement-label">What type of engagement are you looking for?<span class="required">*</span></label>
+      <p class="engagement-hint">(Select one option)</p>
+
+      <div class="engagement-options">
+        <!-- Option 1: Team Augmentation -->
+        <div class="engagement-option selected" onclick="selectOption(this)">
+          <svg class="option-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          <div class="option-content">
+            <div class="option-title">Add specific roles to an existing team</div>
+            <div class="option-description">Ideal for scaling your team quickly, filling skill gaps, or bringing in experts for specialized tasks</div>
+          </div>
+        </div>
+
+        <!-- Option 2: Remote Team -->
+        <div class="engagement-option" onclick="selectOption(this)">
+          <svg class="option-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          <div class="option-content">
+            <div class="option-title">Build your own remote team of full time employees</div>
+            <div class="option-description">Hire a remote team risk-free—let a partner build and operate—transfer proven talent in-house</div>
+          </div>
+        </div>
+
+        <!-- Option 3: Fractional CTOs/CPOs -->
+        <div class="engagement-option" onclick="selectOption(this)">
+          <svg class="option-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+          <div class="option-content">
+            <div class="option-title">Engage Fractional CTOs/CPOs</div>
+            <div class="option-description">Tech and product leadership to validate ideas, safeguard decisions, and guide strategy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="login-link">
+      Already a Pangea.ai customer? <a href="#">Log In</a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <button class="btn btn-secondary">Back</button>
+    <button class="btn btn-primary">Start</button>
+  </footer>
+
+  <script>
+    function selectOption(element) {
+      // Remove selected from all options
+      document.querySelectorAll('.engagement-option').forEach(opt => {
+        opt.classList.remove('selected');
+      });
+      // Add selected to clicked option
+      element.classList.add('selected');
+    }
+  </script>
+</body>
+</html>

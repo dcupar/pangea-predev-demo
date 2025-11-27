@@ -1,48 +1,101 @@
-# Pangea Pre.dev Integration Mockups
+# Pangea + Pre.dev Integration Prototype
 
-Static HTML/CSS mockups for the prompt-first Project Work flow integration.
+Static HTML/CSS mockups demonstrating the integration of pre.dev AI specifications into the Pangea platform.
 
-## Files
+**Live Demo:** https://pangea-predev-demo.vercel.app
 
-- `homepage-hero.html` - Full homepage hero with prompt input, CTA, and signup modal
-- `signup-modal.html` - Standalone modal component with all states (signup, login, loading, success)
-- `styles/pangea-mockup.css` - Shared CSS with Pangea brand colors and design tokens
+---
 
-## How to View
+## Overview
 
-Open any HTML file directly in your browser:
+This prototype shows how AI-generated technical specifications enhance the brief submission and opportunity evaluation process for both clients and agencies.
 
-```bash
-open homepage-hero.html
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [IMPLEMENTATION_GUIDE.md](./IMPLEMENTATION_GUIDE.md) | Full technical implementation guide for developers |
+| [LOOM_SCRIPT.md](./LOOM_SCRIPT.md) | Presentation script for developer walkthrough video |
+
+---
+
+## Mockups
+
+### Client Flow
+
+| File | Description |
+|------|-------------|
+| `homepage-hero.html` | Landing page with project description input |
+| `signup-modal.html` | Registration form and plan selection |
+| `loading.html` | Spec generation progress animation |
+| `client-homepage.html` | Client dashboard with project list |
+| `project-page.html` | Project detail with specs summary card |
+| `spec-viewer.html` | Full AI-generated specifications display |
+
+### Agency Flow
+
+| File | Description |
+|------|-------------|
+| `agency-opportunities.html` | Opportunities list with filters |
+| `opportunity-detail.html` | Full brief data with specs access |
+| `spec-viewer.html` | Same spec viewer (shared component) |
+
+---
+
+## User Flows
+
+### Client Flow
+```
+Homepage → Signup → Loading → Dashboard → Project → Specs
 ```
 
-Or start a local server:
+### Agency Flow
+```
+Opportunities List → Opportunity Detail → Specs
+```
+
+---
+
+## How to Run Locally
 
 ```bash
+# Option 1: Python server
+python3 -m http.server 8888
+
+# Option 2: Node server
 npx serve .
+
+# Option 3: Open directly
+open index.html
 ```
+
+---
 
 ## Brand Colors
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--pangea-green-dark` | #1a3d2e | Hero background |
-| `--pangea-green-hero` | #1e4d3d | Hero gradient start |
-| `--pangea-green-primary` | #0CAD80 | Primary buttons, links |
-| `--pangea-green-primary-hover` | #0a9970 | Button hover state |
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `--pangea-green-dark` | #176448 | Dark green, logo |
+| `--pangea-green` | #22896a | Primary buttons |
+| `--pangea-green-hover` | #1d7a5e | Hover states |
+| `--pangea-green-light` | #d1fae5 | Backgrounds, badges |
 
-## User Flow
+---
 
-1. User enters project description in hero textarea
-2. Clicks "Generate Specifications"
-3. Signup modal appears (or login for returning users)
-4. User submits form
-5. Loading state shows spec generation progress
-6. Success state with redirect to project page
+## Tech Stack
 
-## Notes for Webflow Implementation
+- Pure HTML/CSS (no frameworks)
+- Inter font (Google Fonts)
+- Responsive design
+- CSS custom properties for theming
 
-- All styles use CSS custom properties for easy theming
-- Font: Inter (Google Fonts)
-- Modal uses `position: fixed` overlay pattern
-- Responsive breakpoints at 768px
+---
+
+## For Developers
+
+See [IMPLEMENTATION_GUIDE.md](./IMPLEMENTATION_GUIDE.md) for:
+- Pre.dev API integration details
+- Database schema updates
+- TypeScript interfaces
+- Component specifications
+- Testing checklist

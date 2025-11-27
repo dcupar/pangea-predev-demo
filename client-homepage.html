@@ -703,6 +703,210 @@
     .dropdown-overlay.active {
       display: block;
     }
+
+    /* New Project Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .project-modal {
+      background: white;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: scale(0.95);
+      transition: transform 0.2s ease;
+    }
+
+    .modal-overlay.active .project-modal {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      padding: 24px 28px;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .modal-header-content {
+      flex: 1;
+    }
+
+    .modal-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #1a202c;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-subtitle {
+      font-size: 14px;
+      color: #718096;
+    }
+
+    .modal-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: none;
+      background: #f7fafc;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #718096;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      background: #edf2f7;
+      color: #4a5568;
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    .prompt-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a202c;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .prompt-textarea {
+      width: 100%;
+      min-height: 140px;
+      padding: 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 15px;
+      line-height: 1.6;
+      resize: vertical;
+      transition: border-color 0.2s;
+    }
+
+    .prompt-textarea:focus {
+      outline: none;
+      border-color: #22896a;
+    }
+
+    .prompt-textarea::placeholder {
+      color: #a0aec0;
+    }
+
+    .prompt-hint {
+      font-size: 13px;
+      color: #718096;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .prompt-hint svg {
+      width: 16px;
+      height: 16px;
+      color: #22896a;
+    }
+
+    .attach-section {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .attach-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border: 1px dashed #cbd5e0;
+      border-radius: 8px;
+      background: #f7fafc;
+      color: #4a5568;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .attach-btn:hover {
+      border-color: #22896a;
+      color: #22896a;
+      background: #f0fdf4;
+    }
+
+    .modal-footer {
+      padding: 20px 28px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      background: #f7fafc;
+      border-radius: 0 0 16px 16px;
+    }
+
+    .modal-btn {
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .modal-btn-secondary {
+      background: white;
+      border: 1px solid #e2e8f0;
+      color: #4a5568;
+    }
+
+    .modal-btn-secondary:hover {
+      background: #f7fafc;
+      border-color: #cbd5e0;
+    }
+
+    .modal-btn-primary {
+      background: linear-gradient(135deg, #22896a, #176448);
+      border: none;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-btn-primary:hover {
+      background: linear-gradient(135deg, #1d7a5e, #145a3d);
+    }
+
+    .modal-btn-primary:disabled {
+      background: #a0aec0;
+      cursor: not-allowed;
+    }
   </style>
 </head>
 <body>
@@ -753,7 +957,7 @@
           </div>
           <div class="dropdown-options">
             <!-- Project Work - Highlighted -->
-            <a href="homepage-hero.html" class="dropdown-option highlighted">
+            <a href="#" onclick="openProjectModal(); return false;" class="dropdown-option highlighted">
               <div class="dropdown-option-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
@@ -993,6 +1197,67 @@
   </div>
 
   <!-- Toast Notification -->
+  <!-- New Project Modal -->
+  <div class="modal-overlay" id="projectModal">
+    <div class="project-modal">
+      <div class="modal-header">
+        <div class="modal-header-content">
+          <h2 class="modal-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22896a" stroke-width="2">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+            New Project Work
+          </h2>
+          <p class="modal-subtitle">Describe your project and get AI-generated specifications</p>
+        </div>
+        <button class="modal-close" onclick="closeProjectModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <label class="prompt-label">Describe your project idea</label>
+        <textarea
+          class="prompt-textarea"
+          id="newProjectPrompt"
+          placeholder="Example: I want to build a mobile app for fitness tracking that includes workout plans, progress tracking, social features to compete with friends, and integration with wearable devices..."
+        ></textarea>
+        <p class="prompt-hint">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          The more detail you provide, the better your specifications will be
+        </p>
+
+        <div class="attach-section">
+          <button class="attach-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+            </svg>
+            Attach documents (optional)
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="modal-btn modal-btn-secondary" onclick="closeProjectModal()">Cancel</button>
+        <button class="modal-btn modal-btn-primary" onclick="startSpecGeneration()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+          Generate Specifications
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div class="toast" id="toast">
     <div class="toast-icon">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1141,8 +1406,71 @@
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
         closeDropdown();
+        closeProjectModal();
       }
     });
+
+    // Project Modal functions
+    function openProjectModal() {
+      closeDropdown();
+      document.getElementById('projectModal').classList.add('active');
+      document.getElementById('newProjectPrompt').focus();
+    }
+
+    function closeProjectModal() {
+      document.getElementById('projectModal').classList.remove('active');
+      document.getElementById('newProjectPrompt').value = '';
+    }
+
+    // Close modal on overlay click
+    document.getElementById('projectModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeProjectModal();
+      }
+    });
+
+    function startSpecGeneration() {
+      const prompt = document.getElementById('newProjectPrompt').value.trim();
+      if (!prompt) {
+        alert('Please describe your project first');
+        return;
+      }
+
+      // Close modal
+      closeProjectModal();
+
+      // Update the generating card with new project info
+      const title = prompt.length > 40 ? prompt.substring(0, 40) + '...' : prompt;
+      document.getElementById('projectTitle').textContent = title;
+
+      // Reset and restart the progress animation
+      currentStep = 0;
+      document.getElementById('progressBar').style.width = '0%';
+      document.getElementById('generationProgress').style.display = 'block';
+      document.getElementById('specSummary').style.display = 'none';
+      document.getElementById('generatingCard').classList.add('generating');
+      document.getElementById('statusBadge').textContent = 'Generating Specs';
+      document.getElementById('statusBadge').className = 'project-status-badge generating';
+      document.getElementById('viewProjectBtn').disabled = true;
+
+      // Reset steps
+      for (let i = 1; i <= 5; i++) {
+        const icon = document.getElementById(`genStep${i}Icon`);
+        const text = document.getElementById(`genStep${i}Text`);
+        icon.className = i === 1 ? 'step-icon active' : 'step-icon pending';
+        text.className = i === 1 ? 'step-text active' : 'step-text';
+      }
+
+      // Show toast
+      const toast = document.getElementById('toast');
+      toast.style.display = 'flex';
+      toast.querySelector('.toast-title').textContent = 'Project Created!';
+      toast.querySelector('.toast-message').textContent = 'Generating your specifications now...';
+      setTimeout(closeToast, 5000);
+
+      // Start progress animation
+      setTimeout(advanceProgress, 1000);
+    }
   </script>
 </body>
 </html>

@@ -362,6 +362,97 @@
       text-align: right;
     }
 
+    /* Complete Brief Section */
+    .complete-brief-section {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .complete-brief-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .complete-brief-icon {
+      color: #f59e0b;
+    }
+
+    .complete-brief-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #92400e;
+    }
+
+    .brief-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .brief-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .brief-field-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: #4a5568;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .field-status {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .field-status.incomplete {
+      background: #fef2f2;
+      color: #dc2626;
+    }
+
+    .field-status.complete {
+      background: #d1fae5;
+      color: #059669;
+    }
+
+    .brief-field-select {
+      padding: 10px 12px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: inherit;
+      color: #1a202c;
+      background: white;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .brief-field-select:focus {
+      outline: none;
+      border-color: #22896a;
+    }
+
+    .brief-field-select.has-value {
+      border-color: #22896a;
+      background: #f0fdf4;
+    }
+
+    .brief-field-select.incomplete {
+      border-color: #fca5a5;
+      background: #fef2f2;
+    }
+
     /* Progress bar for generating card */
     .progress-bar-container {
       margin-top: 12px;
@@ -1088,6 +1179,49 @@
               <p class="generation-eta" id="generationEta">~4 minutes remaining</p>
             </div>
 
+            <!-- Complete Your Brief Section -->
+            <div class="complete-brief-section" id="completeBriefSection">
+              <div class="complete-brief-header">
+                <span class="complete-brief-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                  </svg>
+                </span>
+                <span class="complete-brief-title">Complete your brief while you wait</span>
+              </div>
+              <div class="brief-fields">
+                <div class="brief-field" id="budgetField">
+                  <label class="brief-field-label">
+                    Budget range
+                    <span class="field-status incomplete" id="budgetStatus">Required</span>
+                  </label>
+                  <select class="brief-field-select" id="budgetSelect" onchange="updateFieldStatus('budget')">
+                    <option value="">Select budget range</option>
+                    <option value="<25k">Less than $25k</option>
+                    <option value="25k-50k">$25k - $50k</option>
+                    <option value="50k-100k">$50k - $100k</option>
+                    <option value="100k-250k">$100k - $250k</option>
+                    <option value=">250k">More than $250k</option>
+                  </select>
+                </div>
+                <div class="brief-field" id="timelineField">
+                  <label class="brief-field-label">
+                    Timeline
+                    <span class="field-status incomplete" id="timelineStatus">Required</span>
+                  </label>
+                  <select class="brief-field-select" id="timelineSelect" onchange="updateFieldStatus('timeline')">
+                    <option value="">Select timeline</option>
+                    <option value="asap">ASAP</option>
+                    <option value="1-2months">1-2 months</option>
+                    <option value="3-6months">3-6 months</option>
+                    <option value="6+months">6+ months</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
             <!-- Spec Summary (hidden until complete) -->
             <div class="spec-summary" id="specSummary" style="display: none;">
               <div class="spec-stat">
@@ -1363,8 +1497,9 @@
       statusBadge.textContent = 'Specs Ready';
       statusBadge.className = 'project-status-badge active';
 
-      // Hide progress, show summary
+      // Hide progress and brief section, show summary
       document.getElementById('generationProgress').style.display = 'none';
+      document.getElementById('completeBriefSection').style.display = 'none';
       document.getElementById('specSummary').style.display = 'flex';
 
       // Enable view button
@@ -1386,6 +1521,22 @@
 
     // Start the progress simulation
     setTimeout(advanceProgress, 1000);
+
+    // Update field status when value changes
+    function updateFieldStatus(field) {
+      const select = document.getElementById(field + 'Select');
+      const status = document.getElementById(field + 'Status');
+
+      if (select.value) {
+        status.textContent = 'Complete';
+        status.className = 'field-status complete';
+        select.className = 'brief-field-select has-value';
+      } else {
+        status.textContent = 'Required';
+        status.className = 'field-status incomplete';
+        select.className = 'brief-field-select';
+      }
+    }
 
     // Dropdown functions
     function toggleDropdown() {

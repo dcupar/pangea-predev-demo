@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pangea.ai - Describe Your Product, Get Specs</title>
+  <link rel="stylesheet" href="styles/pangea-mockup.css">
+  <style>
+    /* ================================
+       V2 HERO - REVISED PER FEEDBACK
+       - Engagement options OUTSIDE prompt box
+       - Fast/Deep spec toggle INSIDE
+       - Single brownfield field
+       - Signup during loading
+       ================================ */
+
+    .hero {
+      background: var(--pangea-green-dark);
+      padding: 60px var(--spacing-xl) 80px;
+      min-height: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-size: 48px;
+      font-weight: 600;
+      color: var(--pangea-white);
+      margin-bottom: var(--spacing-sm);
+      line-height: 1.2;
+      max-width: 700px;
+    }
+
+    .hero-description {
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: var(--spacing-xl);
+      max-width: 460px;
+    }
+
+    /* ================================
+       PROMPT BOX
+       ================================ */
+    .prompt-box {
+      width: 100%;
+      max-width: 720px;
+      background: #1a1a1a;
+      border-radius: 16px;
+      overflow: visible;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    /* TOP TOOLBAR */
+    .prompt-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px 16px 0 0;
+    }
+
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toolbar-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .toolbar-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+
+    .toolbar-btn.listening {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    .toolbar-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .toolbar-divider {
+      width: 1px;
+      height: 24px;
+      background: rgba(255, 255, 255, 0.1);
+      margin: 0 4px;
+    }
+
+    /* Project type pills */
+    .project-type-pills {
+      display: flex;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 4px;
+      border-radius: 8px;
+    }
+
+    .type-pill {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.6);
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      background: none;
+    }
+
+    .type-pill:hover {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .type-pill.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    /* TEXTAREA */
+    .prompt-textarea {
+      width: 100%;
+      min-height: 160px;
+      padding: 20px 24px;
+      border: none;
+      background: transparent;
+      color: var(--pangea-white);
+      font-family: inherit;
+      font-size: 16px;
+      line-height: 1.6;
+      resize: none;
+    }
+
+    .prompt-textarea::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .prompt-textarea:focus {
+      outline: none;
+    }
+
+    /* BROWNFIELD - Additional textarea */
+    .brownfield-section {
+      display: none;
+      padding: 0 24px 16px;
+      animation: slideDown 0.2s ease;
+    }
+
+    .brownfield-section.visible {
+      display: block;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .brownfield-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .brownfield-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .brownfield-textarea {
+      width: 100%;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: white;
+      font-family: inherit;
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100px;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+
+    .brownfield-textarea::placeholder {
+      color: rgba(255, 255, 255, 0.35);
+    }
+
+    .brownfield-textarea:focus {
+      outline: none;
+      border-color: rgba(34, 137, 106, 0.5);
+    }
+
+    /* BOTTOM - Spec toggle + Generate */
+    .prompt-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: rgba(255, 255, 255, 0.02);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 0 0 16px 16px;
+      position: relative;
+      overflow: visible;
+    }
+
+    /* Other engagement links - inside prompt box */
+    .other-engagements {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 20px;
+      background: rgba(255, 255, 255, 0.02);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 0 0 16px 16px;
+    }
+
+    .other-label {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .other-link {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .other-link:hover {
+      color: #6ee7b7;
+      text-decoration: underline;
+    }
+
+    .other-sep {
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Spec Type Toggle */
+    .spec-toggle {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 4px;
+      border-radius: 8px;
+      position: relative;
+    }
+
+    .spec-option {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.6);
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      background: none;
+    }
+
+    .spec-option:hover {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .spec-option.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    .spec-option svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Tooltip - positioned BELOW to avoid cutoff */
+    .spec-tooltip {
+      position: absolute;
+      top: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1a202c;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.5;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s;
+      z-index: 1000;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .spec-tooltip::before {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 8px solid transparent;
+      border-bottom-color: #1a202c;
+    }
+
+    .spec-option:hover .spec-tooltip {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .tooltip-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #6ee7b7;
+      font-size: 13px;
+    }
+
+    .tooltip-desc {
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 8px;
+    }
+
+    .tooltip-stats {
+      display: flex;
+      gap: 16px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .tooltip-stats span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tooltip-stats strong {
+      color: white;
+      font-weight: 600;
+    }
+
+    /* Generate button */
+    .generate-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: var(--pangea-green-primary);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .generate-btn:hover {
+      background: var(--pangea-green-primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .generate-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+
+    /* ================================
+       SOCIAL PROOF
+       ================================ */
+    .social-proof {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      margin-top: var(--spacing-xl);
+    }
+
+    .proof-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 13px;
+    }
+
+    .proof-item strong {
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 600;
+    }
+
+    /* ================================
+       SIMPLIFIED MODAL
+       ================================ */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-title {
+      font-size: 22px;
+      font-weight: 600;
+      color: #1a202c;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .modal-subtitle {
+      font-size: 14px;
+      color: #718096;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .sso-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .sso-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      background: white;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .sso-btn:hover {
+      background: #f7fafc;
+      border-color: #cbd5e1;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+
+    .divider-text {
+      font-size: 13px;
+      color: #a0aec0;
+    }
+
+    .email-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 15px;
+      margin-bottom: 16px;
+    }
+
+    .email-input:focus {
+      outline: none;
+      border-color: #22896a;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: #22896a;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .submit-btn:hover {
+      background: #1d7a5e;
+    }
+
+    .modal-terms {
+      font-size: 12px;
+      color: #a0aec0;
+      text-align: center;
+      margin-top: 16px;
+    }
+
+    .modal-terms a {
+      color: #22896a;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #a0aec0;
+      padding: 4px;
+    }
+
+    /* ================================
+       RESPONSIVE
+       ================================ */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 32px;
+      }
+
+      .prompt-toolbar {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+      }
+
+      .toolbar-left {
+        justify-content: center;
+      }
+
+      .project-type-pills {
+        justify-content: center;
+      }
+
+      .prompt-bottom {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .engagement-cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .social-proof {
+        flex-direction: column;
+        gap: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="navbar-logo">pangea.ai</div>
+    <div class="navbar-links">
+      <a href="#" class="navbar-link">For Companies</a>
+      <a href="#" class="navbar-link">For Talent</a>
+      <a href="#" class="navbar-link">For Agencies</a>
+      <a href="#" class="navbar-link">Resources</a>
+      <a href="#" class="navbar-cta">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1 class="hero-title">Describe your product, get specs in minutes</h1>
+    <p class="hero-description">
+      Transform your idea into technical specs, milestones, and cost estimates.
+    </p>
+
+    <!-- Prompt Box -->
+    <div class="prompt-box">
+      <!-- TOP TOOLBAR -->
+      <div class="prompt-toolbar">
+        <div class="toolbar-left">
+          <!-- Voice Button -->
+          <button class="toolbar-btn" id="voiceBtn" onclick="toggleVoice()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+              <line x1="12" y1="19" x2="12" y2="23"/>
+              <line x1="8" y1="23" x2="16" y2="23"/>
+            </svg>
+            <span id="voiceLabel">Speak</span>
+          </button>
+
+          <div class="toolbar-divider"></div>
+
+          <!-- Project Type Toggle -->
+          <div class="project-type-pills">
+            <button class="type-pill active" onclick="setProjectType('new', this)">New project</button>
+            <button class="type-pill" onclick="setProjectType('existing', this)">Existing project</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TEXTAREA -->
+      <textarea
+        class="prompt-textarea"
+        id="projectPrompt"
+        placeholder="What do you want to build?"
+      ></textarea>
+
+      <!-- BROWNFIELD - Additional field (shown when "Existing project" selected) -->
+      <div class="brownfield-section" id="brownfieldSection">
+        <div class="brownfield-field">
+          <label class="brownfield-label">Existing Tech Stack & Context</label>
+          <textarea class="brownfield-textarea" id="techStackInput" placeholder="Describe your current tech stack, constraints, and any relevant context...&#10;&#10;e.g., React frontend, Node.js API, PostgreSQL database hosted on AWS. Need to integrate with existing payment system."></textarea>
+        </div>
+      </div>
+
+      <!-- BOTTOM - Spec toggle + Generate -->
+      <div class="prompt-bottom">
+        <!-- Spec Type Toggle with Tooltips -->
+        <div class="spec-toggle">
+          <button class="spec-option active" onclick="setSpecType('fast', this)" data-type="fast">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+            Fast spec
+            <div class="spec-tooltip">
+              <div class="tooltip-title">Fast Spec</div>
+              <div class="tooltip-desc">Quick overview for MVPs and prototypes</div>
+              <div class="tooltip-stats">
+                <span><strong>~30-60s</strong> generation</span>
+                <span><strong>10</strong> credits</span>
+              </div>
+            </div>
+          </button>
+          <button class="spec-option" onclick="setSpecType('deep', this)" data-type="deep">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
+            Deep spec
+            <div class="spec-tooltip">
+              <div class="tooltip-title">Deep Spec</div>
+              <div class="tooltip-desc">Comprehensive specs for production apps</div>
+              <div class="tooltip-stats">
+                <span><strong>~2-5min</strong> generation</span>
+                <span><strong>50</strong> credits</span>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <button class="generate-btn" onclick="handleGenerate()">
+          Generate specs
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Other engagement options - text links inside prompt box -->
+      <div class="other-engagements">
+        <span class="other-label">Or:</span>
+        <a href="onboarding.html?type=augmentation" class="other-link">Hire specific devs</a>
+        <span class="other-sep">·</span>
+        <a href="onboarding.html?type=fractional" class="other-link">Engage fractional leaders</a>
+        <span class="other-sep">·</span>
+        <a href="onboarding.html?type=bot" class="other-link">Build your remote team</a>
+      </div>
+    </div>
+
+    <!-- Social Proof -->
+    <div class="social-proof">
+      <div class="proof-item"><strong>2,400+</strong> projects delivered</div>
+      <div class="proof-item"><strong>500+</strong> vetted agencies</div>
+      <div class="proof-item"><strong>48hrs</strong> to proposals</div>
+    </div>
+  </section>
+
+  <!-- Trust Section -->
+  <section class="trust-section">
+    <p class="trust-title">TRUSTED BY LEADING COMPANIES</p>
+    <div class="trust-logos">
+      <span style="font-weight: 600; color: #333;">Notion</span>
+      <span style="font-weight: 600; color: #333;">Stripe</span>
+      <span style="font-weight: 600; color: #333;">Figma</span>
+      <span style="font-weight: 600; color: #333;">Vercel</span>
+      <span style="font-weight: 600; color: #333;">Linear</span>
+    </div>
+  </section>
+
+  <!-- Signup Modal (shows during loading to qualify leads) -->
+  <div class="modal-overlay" id="signupModal">
+    <div class="modal" style="position: relative;">
+      <button class="modal-close" onclick="closeModal()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
+      <h2 class="modal-title">Almost there</h2>
+      <p class="modal-subtitle">Sign in while we generate your specifications</p>
+
+      <div class="sso-buttons">
+        <button class="sso-btn" onclick="ssoLogin('google')">
+          <svg width="18" height="18" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+          </svg>
+          Continue with Google
+        </button>
+        <button class="sso-btn" onclick="ssoLogin('microsoft')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#00A4EF">
+            <path d="M11.4 24H0V12.6h11.4V24zM24 24H12.6V12.6H24V24zM11.4 11.4H0V0h11.4v11.4zm12.6 0H12.6V0H24v11.4z"/>
+          </svg>
+          Continue with Microsoft
+        </button>
+      </div>
+
+      <div class="divider">
+        <span class="divider-line"></span>
+        <span class="divider-text">or</span>
+        <span class="divider-line"></span>
+      </div>
+
+      <input type="email" class="email-input" id="emailInput" placeholder="Work email">
+      <button class="submit-btn" onclick="submitEmail()">Continue</button>
+
+      <p class="modal-terms">
+        By continuing, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // State
+    let isListening = false;
+    let recognition = null;
+    let selectedEngagement = 'project';
+    let selectedSpecType = 'fast';
+    let projectPrompt = '';
+
+    // Voice Input
+    function toggleVoice() {
+      const btn = document.getElementById('voiceBtn');
+      const label = document.getElementById('voiceLabel');
+      const textarea = document.getElementById('projectPrompt');
+
+      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        alert('Voice input requires Chrome or Edge browser.');
+        return;
+      }
+
+      if (isListening) {
+        if (recognition) recognition.stop();
+        isListening = false;
+        btn.classList.remove('listening');
+        label.textContent = 'Speak';
+      } else {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onstart = () => {
+          isListening = true;
+          btn.classList.add('listening');
+          label.textContent = 'Listening...';
+        };
+
+        recognition.onresult = (event) => {
+          let transcript = '';
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            transcript += event.results[i][0].transcript;
+          }
+          textarea.value = transcript;
+        };
+
+        recognition.onend = () => {
+          isListening = false;
+          btn.classList.remove('listening');
+          label.textContent = 'Speak';
+        };
+
+        recognition.onerror = () => {
+          isListening = false;
+          btn.classList.remove('listening');
+          label.textContent = 'Speak';
+        };
+
+        recognition.start();
+      }
+    }
+
+    // Project Type Toggle
+    function setProjectType(type, btn) {
+      document.querySelectorAll('.type-pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+
+      const brownfield = document.getElementById('brownfieldSection');
+      if (type === 'existing') {
+        brownfield.classList.add('visible');
+      } else {
+        brownfield.classList.remove('visible');
+      }
+    }
+
+    // Spec Type Toggle
+    function setSpecType(type, btn) {
+      document.querySelectorAll('.spec-option').forEach(o => o.classList.remove('active'));
+      btn.classList.add('active');
+      selectedSpecType = type;
+    }
+
+    // Engagement Selection - clicking non-project options navigates directly
+    function selectEngagement(card, type) {
+      document.querySelectorAll('.engagement-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      selectedEngagement = type;
+
+      // For non-project engagements, navigate directly to onboarding
+      if (type !== 'project') {
+        window.location.href = `onboarding.html?type=${type}`;
+      }
+    }
+
+    // Handle Generate
+    function handleGenerate() {
+      projectPrompt = document.getElementById('projectPrompt').value.trim();
+
+      if (!projectPrompt && selectedEngagement === 'project') {
+        document.getElementById('projectPrompt').focus();
+        document.getElementById('projectPrompt').placeholder = 'Please describe what you want to build...';
+        return;
+      }
+
+      // For non-project engagements, go to onboarding
+      if (selectedEngagement !== 'project') {
+        window.location.href = `onboarding.html?type=${selectedEngagement}`;
+        return;
+      }
+
+      // For project work: Go to loading page first (user sees progress)
+      // Loading page will prompt signup before showing results
+      const techStack = document.getElementById('techStackInput')?.value || '';
+      const params = new URLSearchParams({
+        prompt: projectPrompt,
+        specType: selectedSpecType,
+        techStack: techStack
+      });
+      window.location.href = 'loading.html?' + params.toString();
+    }
+
+    // Modal functions
+    function closeModal() {
+      document.getElementById('signupModal').classList.remove('active');
+    }
+
+    function ssoLogin(provider) {
+      // In production: OAuth flow
+      // For prototype: go to loading
+      goToLoading();
+    }
+
+    function submitEmail() {
+      const email = document.getElementById('emailInput').value.trim();
+      if (!email) {
+        document.getElementById('emailInput').focus();
+        return;
+      }
+      goToLoading();
+    }
+
+    function goToLoading() {
+      const techStack = document.getElementById('techStackInput')?.value || '';
+      const params = new URLSearchParams({
+        prompt: projectPrompt,
+        specType: selectedSpecType,
+        techStack: techStack
+      });
+      window.location.href = 'loading.html?' + params.toString();
+    }
+
+    // Close modal on overlay click
+    document.getElementById('signupModal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+</body>
+</html>

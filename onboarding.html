@@ -160,28 +160,29 @@
       border-radius: 12px;
       cursor: pointer;
       transition: all 0.2s;
+      background: white;
     }
 
     .engagement-option:hover {
-      border-color: #cbd5e0;
+      border-color: #22896a;
       background: #f7fafc;
     }
 
     .engagement-option.selected {
-      border-color: #22896a;
-      background: linear-gradient(135deg, #22896a 0%, #176448 100%);
+      border: 2px solid #22896a;
+      background: white;
     }
 
     .engagement-option.selected .option-icon {
-      color: white;
+      color: #22896a;
     }
 
     .engagement-option.selected .option-title {
-      color: white;
+      color: #1a202c;
     }
 
     .engagement-option.selected .option-description {
-      color: rgba(255, 255, 255, 0.85);
+      color: #718096;
     }
 
     .option-icon {
@@ -411,6 +412,27 @@
       // Add selected to clicked option
       element.classList.add('selected');
     }
+
+    // Handle pre-selected engagement type from URL
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const type = urlParams.get('type');
+
+      if (type) {
+        const options = document.querySelectorAll('.engagement-option');
+        options.forEach(opt => opt.classList.remove('selected'));
+
+        const typeMap = {
+          'augmentation': 0,
+          'bot': 1,
+          'fractional': 2
+        };
+
+        if (typeMap[type] !== undefined && options[typeMap[type]]) {
+          options[typeMap[type]].classList.add('selected');
+        }
+      }
+    });
   </script>
 </body>
 </html>
